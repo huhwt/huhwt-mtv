@@ -1,0 +1,23 @@
+<?php
+
+use Fisharebest\Webtrees\I18N;
+use Fisharebest\Webtrees\View;
+
+?>
+
+<h3 class="wt-page-title">
+    <?= $title ?>
+</h3>
+
+<?php for ( $i = 0, $iE = count($htmls); $i < $iE; ++$i) : ?>
+    <?php $html = $htmls[$i] ?>
+    <div class="wt-page-content wt-chart wt-chart-interactive">
+        <?= $html ?>
+    </div>
+    <?php $js = $jss[$i] ?>
+    <?php View::push('javascript') ?>
+    <script>
+        <?= $js ?>
+    </script>
+    <?php View::endpush() ?>
+<?php endfor ?>

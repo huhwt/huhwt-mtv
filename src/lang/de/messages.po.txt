@@ -1,0 +1,2 @@
+msgid ""
+msgstr "Project-Id-Version: 1.0\nPOT-Creation-Date: 22.10.2020\nPO-Revision-Date: \nLast-Translator: EW.H <ewh@huh-netz.de>\nLanguage-Team: \nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nLanguage: de\nX-Generator: Poedit 2.4.1\n"
