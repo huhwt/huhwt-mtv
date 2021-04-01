@@ -5,14 +5,16 @@ HuH Extensions for webtrees - Multi-Treeview
 [![webtrees major version](https://img.shields.io/badge/webtrees-v2.x-green)][2]
 [![Downloads](https://img.shields.io/github/downloads/huhwt/huhwt-mtv/v1.0/total)]()
 
-Extensions for webtrees to check and display duplicates and other inconsistencies in the database.
+Extensions for webtrees to check and display duplicate Individuals in the database.
 
 Introduction
 -----------
 
 If you have worked for a few years in one of the big genealogy services, chances are that you will get duplicates by using matching services, because the quality of the data is sometimes quite questionable.
 
-Then it is handy to have a function to check the data with visual aids not only for each match individually, but on a screen at the same time.
+Then it is handy to have a function to check the data with visual aids not only for each match separately, but on a screen at the same time.
+
+The matching list in the 'duplicates'-view for 'Individuals' is expanded by a 'Interactive Check' entry, showing 'Interactive tree' for each individual on the screen together. This happens even when there are more than 2 individuals grepped by the function.
 
 Installation and upgrading
 --------------------------
@@ -22,6 +24,13 @@ Development
 -------------------------
 
 [TODO]
+
+By now there are false-positives because of matching happens even when individuals are sharing the '_MARNM'-tag only. The filtering function should be sharpened by explicitly requesting for 'NAME'-tags.
+
+Hard-core workaround: In AdminService.php insert agter line 136:
+
+    >            ->where('n_type', '=', 'NAME')          /** EW.H - MOD ... avoid false positives because of tag '_MARNM' */
+
 
 Bugs and feature requests
 -------------------------

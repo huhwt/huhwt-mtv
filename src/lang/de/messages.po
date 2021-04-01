@@ -13,6 +13,10 @@ msgstr "Vergleich Sanduhrdiagramm von %s"
 msgid "Tree of %s"
 msgstr "Sanduhrdiagramm von %s"
 
+#: app/Http/RequestHandlers/MultTreeViewRH.php:94
+msgid "List of Individuals"
+msgstr "Übersicht Personen"
+
 #: resources/views/admin/trees-duplicates.phtml:45
 msgid "Interactive check"
 msgstr "Interaktiver Vergleich"

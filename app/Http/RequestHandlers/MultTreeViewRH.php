@@ -38,9 +38,12 @@ use HuHwt\WebtreesMods\Module\InteractiveTree\MultTreeViewMod;
 
 use function assert;
 use function redirect;
+use function app;
 
 /**
  * Multiple Treeviews - Interactive check
+ * 
+ * EW.H - MOD ... derived from webtrees/app/Http/Requesthandlers/MergeRecordsPage.php
  */
 class MultTreeViewRH implements RequestHandlerInterface
 {
@@ -97,6 +100,26 @@ class MultTreeViewRH implements RequestHandlerInterface
         /* return I18N::translate('Interactive tree of %s', $individual->fullName()); */
     }
 
+
+    /**
+     * Get root of Module
+     */
+    private function modRoot(): string
+    {
+        if (isset($_SERVER['HTTPS'])) {
+            $protocol = ($_SERVER['HTTPS'] && strtolower($_SERVER['HTTPS']) !== 'off') ? 'https' : 'http';
+        }
+        else {
+            $protocol = 'http';
+        }
+
+        $doc_root = $_SERVER['DOCUMENT_ROOT'];
+        $file_path = realpath(dirname(__FILE__, 3));            // EW.H - MOD ... actually 3 levels lower than root
+        $file_path = substr($file_path, strlen($doc_root));
+
+        return $protocol . '://' . $_SERVER['HTTP_HOST'] . $file_path;
+    }
+
     /**
      * Merge two genealogy records.
      *
@@ -116,7 +139,8 @@ class MultTreeViewRH implements RequestHandlerInterface
         $xref1 = $xrefs[0];
         $xref2 = $xrefs[1];
 
-        $title = I18N::translate('Interactive check') . ' — ' . e($tree->title());
+        $titleRH = I18N::translate('Interactive check') . ' — ' . e($tree->title());
+        $modRoot = $this->modRoot();
 
         $record1 = Registry::gedcomRecordFactory()->make($xref1, $tree);
         $record2 = Registry::gedcomRecordFactory()->make($xref2, $tree);
@@ -171,6 +195,7 @@ class MultTreeViewRH implements RequestHandlerInterface
             'title'      => $this->chartTitle($individual0),
             'actLan'     => $actLan,
             'tree'       => $tree,
+            'modRoot'    => $modRoot,       // EW.H - MOD ... root of this module
         ]);
     }
 }

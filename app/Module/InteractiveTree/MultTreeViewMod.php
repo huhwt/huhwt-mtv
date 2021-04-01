@@ -29,6 +29,8 @@ use Illuminate\Support\Collection;
 
 /**
  * Class MultTreeViewMod
+ *
+ * EW.H - MOD ... derived from webtrees/Module/InteractiveTree/Treeview.php
  */
 class MultTreeViewMod
 {
@@ -46,6 +48,8 @@ class MultTreeViewMod
     }
 
     /**
+     * EW.H - MOD ... Modified view and Handler 
+     * 
      * Draw the viewport which creates the draggable/zoomable framework
      * Size is set by the container, as the viewport can scale itself automatically
      *
@@ -69,6 +73,8 @@ class MultTreeViewMod
             'var ' . $this->name . 'Handler = new TreeViewHandlerMTV("' . $this->name . $rlevel .'", "' . e($individual->tree()->name()) . '");',
         ];
     }
+
+    // EW.H - MOD ... other elements stay as is 
 
     /**
      * Return a JSON structure to a JSON request

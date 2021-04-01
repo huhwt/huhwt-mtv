@@ -20,7 +20,7 @@
  *        module.php
  *        LICENSE.md
  *        README.md
- *      - justlight-x.zip
+ *        README.de.md
  *
  */
 
@@ -37,10 +37,10 @@ const FileManagerPlugin = require('filemanager-webpack-plugin');
 
 mix
     .setPublicPath('./dist')
-    .copy(config.build_dir + '/css/huhwt.min.css', dist_dir + '/public/css/huhwt.min.css')
+    .copy(config.build_dir + '/css/huhwt.min.css', dist_dir + '/resources/css/huhwt.min.css')
     .copyDirectory(config.public_dir + '/views', dist_dir + '/resources/views')
     .copyDirectory(config.app_dir, dist_dir)
-    .copy(config.dev_dir + '/js/huhwt-treeview.js', dist_dir + '/public/js/huhwt.min.js')
+    .copy(config.dev_dir + '/js/huhwt-treeview.js', dist_dir + '/resources/js/huhwt.min.js')
     .copy(config.dev_dir + '/lang/de/messages.po', dist_dir + '/resources/lang/de/messages.po')
     .copy('module.php', dist_dir)
     .copy('autoload.php', dist_dir)
@@ -48,6 +48,7 @@ mix
     .copy('latest-version.txt', dist_dir)
     .copy('LICENSE.md', dist_dir)
     .copy('README.md', dist_dir)
+    .copy('README.de.md', dist_dir)
     .webpackConfig({
         plugins: [
           new FileManagerPlugin({

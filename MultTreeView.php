@@ -6,61 +6,63 @@ namespace HuHwt\WebtreesMods;
 
 use Aura\Router\RouterContainer;
 use Aura\Router\Map;
-use Fig\Http\Message\RequestMethodInterface;
+// use Fig\Http\Message\RequestMethodInterface;
 use fisharebest\Localization\Translation;
 use Fisharebest\webtrees\module\AbstractModule;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
 use Fisharebest\Webtrees\Module\ModuleCustomTrait;
-use Fisharebest\Webtrees\Module\ModuleChartInterface;
-use Fisharebest\Webtrees\Module\ModuleChartTrait;
-use Fisharebest\Localization\Locale\LocaleInterface;
-use Fisharebest\Webtrees\Auth;
+// use Fisharebest\Webtrees\Module\ModuleChartInterface;
+// use Fisharebest\Webtrees\Module\ModuleChartTrait;
+// use Fisharebest\Localization\Locale\LocaleInterface;
+// use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Http\Middleware\AuthManager;
-use Fisharebest\Webtrees\Contracts\UserInterface;
+// use Fisharebest\Webtrees\Contracts\UserInterface;
 use Fisharebest\Webtrees\Http\ViewResponseTrait;
-use Fisharebest\Webtrees\Registry;
+// use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Menu;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\View;
 use Fisharebest\Webtrees\Individual;
+// use Fisharebest\Webtrees\Services;
 use Fisharebest\Webtrees\Module\ModuleInterface;
+use Fisharebest\Webtrees\Module\ModuleGlobalInterface;
+use Fisharebest\Webtrees\Module\ModuleGlobalTrait;
 
-use Fisharebest\Webtrees\Services\LocalizationService;
-use Fisharebest\Webtrees\Session;
-use Fisharebest\Webtrees\Tree;
-use Illuminate\Database\Capsule\Manager as DB;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Database\Query\Expression;
-use Illuminate\Database\Query\JoinClause;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
+// use Fisharebest\Webtrees\Services\LocalizationService;
+// use Fisharebest\Webtrees\Session;
+// use Fisharebest\Webtrees\Tree;
+// use Illuminate\Database\Capsule\Manager as DB;
+// use Illuminate\Database\Query\Builder;
+// use Illuminate\Database\Query\Expression;
+// use Illuminate\Database\Query\JoinClause;
+// use Psr\Http\Message\ResponseInterface;
+// use Psr\Http\Message\ServerRequestInterface;
+// use Psr\Http\Server\RequestHandlerInterface;
 
 
 use HuHwt\WebtreesMods\Http\RequestHandlers\MultTreeViewRH;
-use HuHwt\WebtreesMods\Http\RequestHandlers\FindDuplicateRecordsRH;
 
 use function app;
-use function array_keys;
+// use function array_keys;
 use function assert;
-use function e;
-use function implode;
-use function in_array;
-use function ob_get_clean;
-use function ob_start;
-use function redirect;
+// use function e;
+// use function implode;
+// use function in_array;
+// use function ob_get_clean;
+// use function ob_start;
+// use function redirect;
 use function route;
-use function usort;
+// use function usort;
 use function view;
 
 /**
  * Class MultTreeView
  */
-class MultTreeView extends AbstractModule implements ModuleCustomInterface, ModuleInterface, ModuleChartInterface
+class MultTreeView extends AbstractModule implements ModuleCustomInterface, ModuleInterface, ModuleGlobalInterface
 {
     use ModuleCustomTrait;
+    use ModuleGlobalTrait;
     use ViewResponseTrait;
-    use ModuleChartTrait;
 
     private const ROUTE_DEFAULT = 'huhwt-mult-treeview';
     private const ROUTE_URL = '/tree/{tree}/mult-treeview&xrefs={xrefs}';
@@ -86,13 +88,7 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
      *
      */
     public function customModuleVersion(): string {
-        return file_get_contents(__DIR__ . '/latest-version.txt');
-    }
-
-    // EW.H - Mod ... wird eigentlich in der Basisklasse über die ...VersionUrl gezogen
-    // Dient zur Plausibilisierung, dass die installierte Version zum Core kompatibel ist
-    public function customModuleLatestVersion(): string {
-        return file_get_contents(__DIR__ . '/latest-version.txt');
+        return '2.0.13';
     }
 
     /**
@@ -101,7 +97,7 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
      * @return string
      */
     public function customModuleLatestVersionUrl(): string {
-        return '';      // https://raw.githubusercontent.com/vesta-webtrees-2-custom-modules/vesta_common/master/latest-version.txt';
+        return 'https://github.com/huhwt/huhwt-mtv/master/latest-version.txt';
     }
 
     /**
@@ -109,7 +105,7 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
      * @see \Fisharebest\Webtrees\Module\ModuleCustomInterface::customModuleSupportUrl()
      */
     public function customModuleSupportUrl(): string {
-        return '';      // https://huh-netz.de';
+        return 'https://github.com/huhwt/huhwt-mtv/issues';
     }
 
     /**
@@ -162,52 +158,28 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
      *
      * @return string
      */
-    public function chartMenuClass(): string
-    {
-        return 'menu-chart-tree';
-    }
-
     /**
-     * Return a menu item for this chart - for use in individual boxes.
-     *
-     * @param Individual $individual
-     *
-     * @return Menu|null
-     */
-    public function chartBoxMenu(Individual $individual): ?Menu
-    {
-        return $this->chartMenu($individual);
-    }
-
-    /**
-     * The title for a specific instance of this chart.
-     *
-     * @param Individual $individual
+     * Raw content, to be added at the end of the <head> element.
+     * Typically, this will be <link> and <meta> elements.
      *
      * @return string
      */
-    public function chartTitle(Individual $individual): string
+    public function headContent(): string
     {
-        /* I18N: %s is an individual’s name */
-        return I18N::translate('Interactive tree of %s', $individual->fullName());
+        return view("{$this->name()}::style", [
+            'path' => $this->assetUrl('css/huhwt.min.css'),
+        ]);
     }
 
     /**
-     * The URL for this chart.
-     *
-     * @param Individual $individual
-     * @param mixed[]    $parameters
-     *
+     * Raw content, to be added at the end of the <body> element.
+     * Typically, this will be <script> elements.
+     * EW.H - MOD ... - Script element will be mapped by explicit customized adminMTV.phtml
      * @return string
      */
-    public function chartUrl(Individual $individual, array $parameters = []): string
+    public function bodyContent(): string
     {
-        return route('module', [
-                'module' => $this->name(),
-                'action' => 'Chart',
-                'xref'   => $individual->xref(),
-                'tree'    => $individual->tree()->name(),
-            ] + $parameters);
+        return '';
     }
 
     /**
@@ -216,9 +188,6 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
      */
     public function boot(): void 
     {
-        $router_container = app(RouterContainer::class);
-        assert($router_container instanceof RouterContainer);
-
         $router_container = app(RouterContainer::class);
         assert($router_container instanceof RouterContainer);
         $router = $router_container->getMap();
@@ -231,16 +200,12 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
             ]);
 
             $router->get(MultTreeViewRH::class, '/mult-treeview'); 
-            // $router->get(FindDuplicateRecordsRH::class, '/duplicates'); 
             });
-
-        // var_dump($router_container);
 
         // Register a namespace for our views.
         View::registerNamespace($this->name(), $this->resourcesFolder() . 'views/');
 
         View::registerCustomView('::layouts/adminMTV', $this->name() . '::layouts/adminMTV');
-        View::registerCustomView('::layouts/defaultMTV', $this->name() . '::layouts/defaultMTV');
         View::registerCustomView('::admin/trees-duplicates', $this->name() . '::admin/trees-duplicates');
 
         View::registerCustomView('::modules/interactive-tree/MultTVchart', $this->name() . '::modules/interactive-tree/MultTVchart');
