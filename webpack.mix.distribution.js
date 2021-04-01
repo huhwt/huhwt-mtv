@@ -54,7 +54,7 @@ mix
           new FileManagerPlugin({
             onEnd: {
                 archive: [
-                    { source: './dist', destination: './dist/huhwt-mtv-' + version + '.zip'}
+                    { source: './dist', destination: './huhwt-mtv-' + version + '.zip'}
                   ]
             }
           })
