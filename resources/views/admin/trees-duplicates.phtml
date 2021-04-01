@@ -14,22 +14,25 @@ $cat_checkI = I18N::translate('Individuals');       /** EW.H - MOD ... übersetz
 <?= view('components/breadcrumbs', ['links' => [route(ControlPanel::class) => I18N::translate('Control panel'), route(ManageTrees::class, ['tree' => $tree->name()]) => I18N::translate('Manage family trees'), $title]]) ?>
 
 <h1><?= $title ?></h1>
-
+<!-- EW.H - MOD ... trees-duplicates extended -->
 <?php foreach ($duplicates as $category => $records) : ?>
 
     <?php if (!empty($records)) : ?>
-        <h2><?= $category ?></h2> <?= I18N::translate('count') ?>: <?= count($records) ?> 
+        <h2><?= $category ?></h2> <?= I18N::translate('count') ?>: <?= count($records) ?>
+        <!-- <?php if ($category === $cat_checkI) : ?>       <? /** EW.H - MOD ... Zusatzaktion bei 'Individuals' */ ?>
+            <?php var_dump($records) ?>
+        <?php endif ?> -->
         <ul>
             <?php foreach ($records as $duplicates) : ?>
                 <li>
                     <?= $duplicates[0]->fullName() ?>
-                    <?php $xrefs = []; ?>                           <? /** EW.H - MOD ... */ ?>
+                    <?php $xrefs = []; ?>                           <? /** EW.H - MOD ... Struktur für gesammelte XREF */ ?>
                     <?php foreach ($duplicates as $record) : ?>
                         —
                         <a href="<?= e($record->url()) ?>">
                             <?= $record->xref() ?>
                         </a>
-                        <?php $xrefs[] = $record->xref() ?>         <? /** EW.H - MOD ... */ ?>
+                        <?php $xrefs[] = $record->xref() ?>         <? /** EW.H - MOD ... XREF sammeln */ ?>
                     <?php endforeach ?>
                     <?php if (count($duplicates) === 2) : ?>
                         —
@@ -37,7 +40,7 @@ $cat_checkI = I18N::translate('Individuals');       /** EW.H - MOD ... übersetz
                             <?= I18N::translate('Merge') ?>
                         </a>
                     <?php endif ?>
-                    <?php if ($category === $cat_checkI) : ?>       <? /** EW.H - MOD ... Zusatzaktion */ ?>
+                    <?php if ($category === $cat_checkI) : ?>       <? /** EW.H - MOD ... Zusatzaktion bei 'Individuals' */ ?>
                         <?php $xrefs = implode(",", $xrefs) ?>
                         —
                         <a href="<?= e(route(MultTreeViewRH::class, ['tree' => $tree->name(),
