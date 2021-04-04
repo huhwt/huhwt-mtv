@@ -14,12 +14,12 @@ Wenn man ein paar Jahre in einem der großen Genealogie-Dienste gearbeitet hat, 
 
 Dann ist es praktisch eine Funktion zu haben, um die Daten mit visuellen Hilfsmitteln nicht nur für jeden Abgleich einzeln, sondern auf einem Bildschirm gleichzeitig zu prüfen.
 
-Die Abgleichliste in der 'Duplikate'-Ansicht für 'Personen' wird um einen Eintrag 'Interaktiver Vergleich' erweitert, der ein 'Interaktives Sanduhr-Diagramm' für jedes Individuum zusammen auf dem Bildschirm anzeigt. Dies geschieht auch wenn mehr als 2 Personen von der Funktion erfasst werden. Man sollte die vorhandene Version vorher komplett entfernen.
+Die Abgleichliste in der 'Duplikate'-Ansicht für 'Personen' wird um einen Eintrag 'Interaktiver Vergleich' erweitert, der ein 'Interaktives Sanduhr-Diagramm' für jedes Individuum zusammen auf dem Bildschirm anzeigt. Dies geschieht auch wenn mehr als 2 Personen von der Funktion erfasst werden. 
 
 Installation and upgrading
 --------------------------
 
-... auf die übliche Art und Weise: Laden Sie die Zip-Datei herunter, entpacken Sie sie in das modules_v4-Verzeichnis, und das war's.
+... auf die übliche Art und Weise: Laden Sie die Zip-Datei herunter, entpacken Sie sie in das modules_v4-Verzeichnis, und das war's. Man sollte die vorhandene Version vorher komplett entfernen.
 
 Development
 -------------------------

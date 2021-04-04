@@ -14,7 +14,7 @@
 		}
 	},
 	"require-dev": {
-		"fisharebest/webtrees": "~2.0.9"
+		"fisharebest/webtrees": "~2.0.13"
 	},
 	"require": {
 	}
