@@ -14,11 +14,11 @@ If you have worked for a few years in one of the big genealogy services, chances
 
 Then it is handy to have a function to check the data with visual aids not only for each match separately, but on a screen at the same time.
 
-The matching list in the 'duplicates'-view for 'Individuals' is expanded by a 'Interactive Check' entry, showing 'Interactive tree' for each individual on the screen together. This happens even when there are more than 2 individuals grepped by the function.
+The matching list in the 'Find duplicates'-view for 'Individuals' is expanded by a 'Interactive Check' entry, showing 'Interactive tree' for each individual on the screen together. This also happens when more than 2 individuals are captured by the function.
 
 Installation and upgrading
 --------------------------
-... in the usual way: Download the zip file, unzip it into the modules_v4 directory, and that's it.
+... in the usual way: Download the zip file, unzip it into the modules_v4 directory, and that's it. You should remove the existing version completely before.
 
 Development
 -------------------------
