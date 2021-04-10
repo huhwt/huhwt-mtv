@@ -1,10 +1,14 @@
 <?php
 
+namespace HuHwt\WebtreesMods\Module;
+
+use HuHwt\WebtreesMods\Module\InteractiveTree\InteractiveTreeModMTV;
+
 use Fisharebest\Webtrees\I18N;
 
 ?>
 
-<div id="<?= $name ?>_out" class="tv_out" data-url-details="<?= e(route('module', ['module' => $module, 'action' => 'Details', 'tree' => $tree->name(), 'dummy' => 'dummy'])) ?>" data-url-individuals="<?= e(route('module', ['module' => $module, 'action' => 'Individuals', 'tree' => $tree->name(), 'dummy' => 'dummy'])) ?>" style="height: 300px">
+<div id="<?= $name ?>_out" class="tv_out" data-url-details="<?= e(route(InteractiveTreeModMTV::class, ['module' => $module, 'action' => 'Details', 'tree' => $tree->name(), 'dummy' => 'dummy'])) ?>" data-url-individuals="<?= e(route(InteractiveTreeModMTV::class, ['module' => $module, 'action' => 'Individuals', 'tree' => $tree->name(), 'dummy' => 'dummy'])) ?>" style="height: 300px">
     <div id="<?= $name ?>_tools">
         <ul>
             <li id="<?= $name ?>bCompact" class="tv_button" title="<?= I18N::translate('Use compact layout') ?>">

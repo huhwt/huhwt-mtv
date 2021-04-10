@@ -58,19 +58,19 @@ class MultTreeViewMod
      *
      * @return string[]  HTML and Javascript
      */
-    public function drawViewport(Individual $individual, string $rlevel, int $generations): array
+    public function drawViewport(Individual $individual, string $earmark, int $generations): array
     {
         $html = view('modules/interactive-tree/MultTVchart', [
-            'module'     => 'tree',
-            'name'       => $this->name . $rlevel,
-            'rlevel'     => $rlevel,
-            'individual' => $this->drawPerson($individual, $rlevel, $generations, 0, null, '', true),
+            'module'     => 'treeMTV',                             // EW.H - MOD ... put own Module here!
+            'name'       => $this->name,
+            'earmark'    => $earmark,
+            'individual' => $this->drawPerson($individual, $earmark, $generations, 0, null, '', true),
             'tree'       => $individual->tree(),
         ]);
 
         return [
             $html,
-            'var ' . $this->name . 'Handler = new TreeViewHandlerMTV("' . $this->name . $rlevel .'", "' . e($individual->tree()->name()) . '");',
+            'var ' . $this->name . 'Handler = new TreeViewHandlerMTV("' . $this->name  .'", "' . e($individual->tree()->name()) . '");',
         ];
     }
 
@@ -84,7 +84,7 @@ class MultTreeViewMod
      *
      * @return string
      */
-    public function getIndividuals(Tree $tree, string $rlevel, string $request): string
+    public function getIndividuals(Tree $tree, string $earmark, string $request): string
     {
         $json_requests = explode(';', $request);
         $r    = [];
@@ -100,7 +100,7 @@ class MultTreeViewMod
                         })
                         ->filter();
 
-                    $r[] = $this->drawChildren($families, $rlevel, 1, true);
+                    $r[] = $this->drawChildren($families, $earmark, 1, true);
                     break;
 
                 case 'p':
@@ -113,7 +113,7 @@ class MultTreeViewMod
 
                         // The family may have no parents (just children).
                         if ($parent instanceof Individual) {
-                            $r[] = $this->drawPerson($parent, $rlevel, 0, 1, $family, $order, false);
+                            $r[] = $this->drawPerson($parent, $earmark, 0, 1, $family, $order, false);
                         }
                     }
                     break;
@@ -181,13 +181,13 @@ class MultTreeViewMod
      * Draw the children for some families
      *
      * @param Collection $familyList array of families to draw the children for
-     * @param string     $rlevel     Runlevel   First - Second - Treeview on page          # EW.H - MOD 
+     * @param string     $earmark    Mark  First - Second - (up to five) Treeview on page          # EW.H - MOD 
      * @param int        $gen        number of generations to draw
      * @param bool       $ajax       true for an ajax call
      *
      * @return string
      */
-    private function drawChildren(Collection $familyList, string $rlevel, int $gen = 1, bool $ajax = false): string
+    private function drawChildren(Collection $familyList, string $earmark, int $gen = 1, bool $ajax = false): string
     {
         $html          = '';
         $children2draw = [];
@@ -218,7 +218,7 @@ class MultTreeViewMod
                 } else {
                     $co = 'h';
                 }
-                $html .= $this->drawPerson($child, $rlevel, $gen - 1, -1, null, $co, false);
+                $html .= $this->drawPerson($child, $earmark, $gen - 1, -1, null, $co, false);
             }
             if (!$ajax) {
                 $html = '<td align="right"' . ($gen == 0 ? ' abbr="c' . $f2load . '"' : '') . '>' . $html . '</td>' . $this->drawHorizontalLine();
@@ -232,7 +232,7 @@ class MultTreeViewMod
      * Draw a person in the tree
      *
      * @param Individual  $person The Person object to draw the box for
-     * @param string      $rlevel Runlevel   First - Second - Treeview on page          # EW.H - MOD 
+     * @param string      $earmark Mark  First - Second - (and so on) Treeview on page          # EW.H - MOD 
      * @param int         $gen    The number of generations up or down to print
      * @param int         $state  Whether we are going up or down the tree, -1 for descendents +1 for ancestors
      * @param Family|null $pfamily
@@ -241,7 +241,7 @@ class MultTreeViewMod
      *
      * @return string
      */
-    private function drawPerson(Individual $person, string $rlevel, int $gen, int $state, Family $pfamily = null, string $line = '', $isRoot = false): string
+    private function drawPerson(Individual $person, string $earmark, int $gen, int $state, Family $pfamily = null, string $line = '', $isRoot = false): string
     {
         if ($gen < 0) {
             return '';
@@ -254,16 +254,16 @@ class MultTreeViewMod
         }
 
         if ($isRoot) {
-            $html = '<table id="tv' . $rlevel . 'TreeBorder" class="tv_tree"><tbody><tr><td id="tv' . $rlevel . '_tree_topleft"></td><td id="tv' . $rlevel . '_tree_top"></td><td id="tv' . $rlevel . '_tree_topright"></td></tr><tr><td id="tv' . $rlevel . '_tree_left"></td><td>';
+            $html = '<table id="tv' . $earmark . 'TreeBorder" class="tv_tree"><tbody><tr><td id="tv' . $earmark . '_tree_topleft"></td><td id="tv' . $earmark . '_tree_top"></td><td id="tv' . $earmark . '_tree_topright"></td></tr><tr><td id="tv' . $earmark . '_tree_left"></td><td>';
         } else {
             $html = '';
         }
         /* height 1% : this hack enable the div auto-dimensioning in td for FF & Chrome */
-        $html .= '<table class="tv_tree"' . ($isRoot ? ' id="tv' . $rlevel . '_tree"' : '') . ' style="height: 1%"><tbody><tr>';
+        $html .= '<table class="tv_tree"' . ($isRoot ? ' id="tv' . $earmark . '_tree"' : '') . ' style="height: 1%"><tbody><tr>';
 
         if ($state <= 0) {
             // draw children
-            $html .= $this->drawChildren($person->spouseFamilies(), $rlevel, $gen);
+            $html .= $this->drawChildren($person->spouseFamilies(), $earmark, $gen);
         } else {
             // draw the parent’s lines
             $html .= $this->drawVerticalLine($line) . $this->drawHorizontalLine();
@@ -316,7 +316,7 @@ class MultTreeViewMod
             if ($parent instanceof Individual) {
                 $u = $unique ? 'c' : 't';
                 $html .= '<tr><td ' . ($gen == 0 ? ' abbr="p' . $primaryChildFamily->xref() . '@' . $u . '"' : '') . '>';
-                $html .= $this->drawPerson($parent, $rlevel, $gen - 1, 1, $primaryChildFamily, $u, false);
+                $html .= $this->drawPerson($parent, $earmark, $gen - 1, 1, $primaryChildFamily, $u, false);
                 $html .= '</td></tr>';
             }
 
@@ -326,7 +326,7 @@ class MultTreeViewMod
                 foreach ($fop as $p) {
                     $n++;
                     $u = $unique ? 'c' : ($n == $nb || empty($p[1]) ? 'b' : 'h');
-                    $html .= '<tr><td ' . ($gen == 0 ? ' abbr="p' . $p[1]->xref() . '@' . $u . '"' : '') . '>' . $this->drawPerson($p[0], $rlevel, $gen - 1, 1, $p[1], $u, false) . '</td></tr>';
+                    $html .= '<tr><td ' . ($gen == 0 ? ' abbr="p' . $p[1]->xref() . '@' . $u . '"' : '') . '>' . $this->drawPerson($p[0], $earmark, $gen - 1, 1, $p[1], $u, false) . '</td></tr>';
                 }
             }
             $html .= '</tbody></table></td>';
@@ -339,7 +339,7 @@ class MultTreeViewMod
         $html .= '</tr></tbody></table>';
 
         if ($isRoot) {
-            $html .= '</td><td id="tv' . $rlevel . '_tree_right"></td></tr><tr><td id="tv' . $rlevel . '_tree_bottomleft"></td><td id="tv' . $rlevel . '_tree_bottom"></td><td id="tv' . $rlevel . '_tree_bottomright"></td></tr></tbody></table>';
+            $html .= '</td><td id="tv' . $earmark . '_tree_right"></td></tr><tr><td id="tv' . $earmark . '_tree_bottomleft"></td><td id="tv' . $earmark . '_tree_bottom"></td><td id="tv' . $earmark . '_tree_bottomright"></td></tr></tbody></table>';
         }
 
         return $html;

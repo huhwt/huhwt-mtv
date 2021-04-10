@@ -41,6 +41,7 @@ use Fisharebest\Webtrees\Module\ModuleGlobalTrait;
 
 
 use HuHwt\WebtreesMods\Http\RequestHandlers\MultTreeViewRH;
+use HuHwt\WebtreesMods\Module\InteractiveTree\InteractiveTreeModMTV;
 
 use function app;
 // use function array_keys;
@@ -200,6 +201,8 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
             ]);
 
             $router->get(MultTreeViewRH::class, '/mult-treeview'); 
+
+            $router->get(InteractiveTreeModMTV::class, '/treeMTV'); 
             });
 
         // Register a namespace for our views.

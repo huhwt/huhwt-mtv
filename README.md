@@ -27,7 +27,7 @@ Development
 
 By now there are false-positives because of matching happens even when individuals are sharing the '_MARNM'-tag only. The filtering function should be sharpened by explicitly requesting for 'NAME'-tags.
 
-Hard-core workaround: In AdminService.php insert agter line 136:
+Hard-core workaround: In AdminService.php insert after line 136:
 
     >            ->where('n_type', '=', 'NAME')          /** EW.H - MOD ... avoid false positives because of tag '_MARNM' */
 
