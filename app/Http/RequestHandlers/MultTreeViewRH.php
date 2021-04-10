@@ -160,9 +160,9 @@ class MultTreeViewRH implements RequestHandlerInterface
             ]));
         }
 
-        $tv = new MultTreeViewMod('tv');
+        // $tv = new MultTreeViewMod('tv');
 
-        $rlevels = [ "M", "U", "L", "T", "V" ];
+        $earmarks = [ "M", "U", "L", "T", "V" ];         // EW.H - MOD ... up to 5 Indi which are viewed as possible duplicates
 
         $htmlAr = [];
         $jsAr = [];
@@ -175,9 +175,10 @@ class MultTreeViewRH implements RequestHandlerInterface
 
             $htmlTOP = $this->chartSubTitle($individual);
     
-            $rlevel = $rlevels[$i];
+            $earmark = $earmarks[$i];
+            $tv = new MultTreeViewMod('tv' . $earmark);          // EW.H - MOD ... we need a private instance for each treeview
 
-            [$html, $js] = $tv->drawViewport($individual, $rlevel, 4);
+            [$html, $js] = $tv->drawViewport($individual, $earmark, 3);
     
             $html = $htmlTOP . $html;
 

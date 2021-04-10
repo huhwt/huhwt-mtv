@@ -26,6 +26,12 @@ Development
 
 [TODO]
 
+Derzeit gibt es False-Positives weil auch dann gematcht wird, wenn Individuen nur das '_MARNM'-tag teilen. Die Filter-Funktion sollte durch explizite Abfrage des 'NAME'-tags geschärft werden.
+
+Hard-core Workaround: In AdminService.php einfügen nach Zeile 136:
+
+    >            ->where('n_type', '=', 'NAME')          /** EW.H - MOD ... avoid false positives because of tag '_MARNM' */
+
 Bugs and feature requests
 -------------------------
 If you experience any bugs or have a feature request for this theme you can [create a new issue][3].

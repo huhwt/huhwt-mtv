@@ -10,4 +10,4 @@ mix.js.map
 /vendor/
 # others
 /_assets/
-/src/images.x/
+/src/sass/images/
