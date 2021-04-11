@@ -43,7 +43,8 @@ use function app;
 /**
  * Multiple Treeviews - Interactive check
  * 
- * EW.H - MOD ... derived from webtrees/app/Http/Requesthandlers/MergeRecordsPage.php
+ * EW.H - MOD ... derived from webtrees/app/Http/Requesthandlers/MergeRecordsAction.php
+ *                        and  webtrees/app/Module/InteractiveTreeModule.php
  */
 class MultTreeViewRH implements RequestHandlerInterface
 {
@@ -91,19 +92,34 @@ class MultTreeViewRH implements RequestHandlerInterface
         $ct = I18N::translate('Check tree of %s', $htmlTOP); 
         return $ct;
     }
-
+    /**
+     * EW.H - MOD ... die ID mit anzeigen
+     * @param Individual $individual
+     *
+     * @return string
+     */
     public function chartSubTitle(Individual $individual): string
     {
         /* I18N: %s is an individual’s name */
-        $ct = I18N::translate('Tree of %s', $individual->fullName()) . " (" . $individual->xref() . ")"; 
-        return $ct;         /* EW.H - MOD ... die ID mit anzeigen */
+        $ct = I18N::translate('Tree of %s', $individual->fullName()); 
+        if (!str_ends_with($ct, ")")) {                         // EW.H - MOD ... test if other extension occasionally had added ID
+            $ct = $ct  . " (" . $individual->xref() . ")";
+        }
+        return $ct;
         /* return I18N::translate('Interactive tree of %s', $individual->fullName()); */
     }
 
 
     /**
-     * Get root of Module
-     */
+    * EW.H - MOD ... we need root of extension for explicitly referencing styles and scripts in generated HTML
+    *
+    * Get root of Module
+    *       huhwt-mtv/          <- we don't know what to preset here to identify the location in page-hierarchy
+    *       - Http/
+    *         - RequestHandlers/
+    *           - (thisFile)
+    *       - resources/        <- here we want to point to later
+    */
     private function modRoot(): string
     {
         if (isset($_SERVER['HTTPS'])) {
@@ -114,7 +130,7 @@ class MultTreeViewRH implements RequestHandlerInterface
         }
 
         $doc_root = $_SERVER['DOCUMENT_ROOT'];
-        $file_path = realpath(dirname(__FILE__, 3));            // EW.H - MOD ... actually 3 levels lower than root
+        $file_path = realpath(dirname(__FILE__, 3));            // EW.H - MOD ... actually 3 levels higher than actual file
         $file_path = substr($file_path, strlen($doc_root));
 
         return $protocol . '://' . $_SERVER['HTTP_HOST'] . $file_path;

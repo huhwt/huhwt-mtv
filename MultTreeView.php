@@ -19,10 +19,10 @@ use Fisharebest\Webtrees\Http\Middleware\AuthManager;
 // use Fisharebest\Webtrees\Contracts\UserInterface;
 use Fisharebest\Webtrees\Http\ViewResponseTrait;
 // use Fisharebest\Webtrees\Registry;
-use Fisharebest\Webtrees\Menu;
+// use Fisharebest\Webtrees\Menu;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\View;
-use Fisharebest\Webtrees\Individual;
+// use Fisharebest\Webtrees\Individual;
 // use Fisharebest\Webtrees\Services;
 use Fisharebest\Webtrees\Module\ModuleInterface;
 use Fisharebest\Webtrees\Module\ModuleGlobalInterface;
@@ -52,7 +52,7 @@ use function assert;
 // use function ob_get_clean;
 // use function ob_start;
 // use function redirect;
-use function route;
+// use function route;
 // use function usort;
 use function view;
 
@@ -68,9 +68,17 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
     private const ROUTE_DEFAULT = 'huhwt-mult-treeview';
     private const ROUTE_URL = '/tree/{tree}/mult-treeview&xrefs={xrefs}';
 
+    private $huh;
+
+    public function __construct() {
+      $this->huh = json_decode('"\u210D"') . "&" . json_decode('"\u210D"') . "wt";
+    }
+
     /**
      * {@inheritDoc}
      * @see \Fisharebest\Webtrees\Module\ModuleCustomInterface::customModuleAuthorName()
+     *
+     * @return string
      */
     public function customModuleAuthorName(): string {
 
@@ -81,18 +89,14 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
      * {@inheritDoc}
      * @see \Fisharebest\Webtrees\Module\ModuleCustomInterface::customModuleVersion()
      *
-     * We use a system where the version number is equal to the latest version of webtrees
-     * Interim versions get an extra sub number
-     *
-     * The dev version is always one step above the latest stable version of this module
-     * The subsequent stable version depends on the version number of the latest stable version of webtrees
-     *
+     * @return string
      */
     public function customModuleVersion(): string {
-        return '2.0.13';
+        return '1.2.1';
     }
 
     /**
+     * {@inheritDoc}
      * A URL that will provide the latest stable version of this module.
      *
      * @return string
@@ -104,6 +108,8 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
     /**
      * {@inheritDoc}
      * @see \Fisharebest\Webtrees\Module\ModuleCustomInterface::customModuleSupportUrl()
+     *
+     * @return string
      */
     public function customModuleSupportUrl(): string {
         return 'https://github.com/huhwt/huhwt-mtv/issues';
@@ -112,6 +118,8 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
     /**
      * {@inheritDoc}
      * @see \Fisharebest\Webtrees\Module\AbstractModule::resourcesFolder()
+     *
+     * @return string
      */
     public function resourcesFolder(): string {
         return __DIR__ . '/resources/';
@@ -142,11 +150,13 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
     /**
      * {@inheritDoc}
      * @see \Fisharebest\Webtrees\Module\AbstractModule::title()
+     *
+     * @return string
      */
     public function title(): string 
     {
         $title = I18N::translate('MultTreeView');
-        return $title;
+        return $this->huh . ' ' . $title;
     }
 
     public function description(): string 

@@ -1,4 +1,4 @@
-HuH Extensions for webtrees - Multi-Treeview
+ℍ&ℍwt - HuH Extensions for webtrees - Multi-Treeview
 ============================
 
 [![Latest Release](https://img.shields.io/github/v/release/huhwt/huhwt-mtv)][1]
