@@ -19,13 +19,15 @@ $cat_checkI = I18N::translate('Individuals');       /** EW.H - MOD ... übersetz
 
     <?php if (!empty($records)) : ?>
         <h2><?= $category ?></h2> <?= I18N::translate('count') ?>: <?= count($records) ?>
-        <!-- <?php if ($category === $cat_checkI) : ?>       <? /** EW.H - MOD ... Zusatzaktion bei 'Individuals' */ ?>
-            <?php var_dump($records) ?>
-        <?php endif ?> -->
         <ul>
             <?php foreach ($records as $duplicates) : ?>
                 <li>
-                    <?= $duplicates[0]->fullName() ?>
+                    <?php $dt = $duplicates[0]->fullName() ?>
+                    <?php if ($category === $cat_checkI) : ?>       <? /** EW.H - MOD ... Zusatzaktion bei 'Individuals' */ ?>
+                        <?php if (str_ends_with($dt, ")")) { $dt = substr($dt, 0, strpos($dt, "(") - 1); } ?>  <? /** EW.H - MOD ... be aware of other extension occasionally had added ID */ ?>
+                        <?php $dt = $dt . "&nbsp;(" . $duplicates[0]->lifespan() . ")&nbsp;"; ?>
+                    <?php endif ?>
+                    <?= $dt ?>
                     <?php $xrefs = []; ?>                           <? /** EW.H - MOD ... Struktur für gesammelte XREF */ ?>
                     <?php foreach ($duplicates as $record) : ?>
                         —

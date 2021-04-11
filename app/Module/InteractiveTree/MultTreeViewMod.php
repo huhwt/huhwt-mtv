@@ -74,8 +74,6 @@ class MultTreeViewMod
         ];
     }
 
-    // EW.H - MOD ... other elements stay as is 
-
     /**
      * Return a JSON structure to a JSON request
      *
@@ -178,6 +176,8 @@ class MultTreeViewMod
     }
 
     /**
+     * EW.H - MOD ... added parm 'earmark'
+     * 
      * Draw the children for some families
      *
      * @param Collection $familyList array of families to draw the children for
@@ -218,7 +218,7 @@ class MultTreeViewMod
                 } else {
                     $co = 'h';
                 }
-                $html .= $this->drawPerson($child, $earmark, $gen - 1, -1, null, $co, false);
+                $html .= $this->drawPerson($child, $earmark, $gen - 1, -1, null, $co, false);           // EW.H - MOD ... added parm 'earmark'
             }
             if (!$ajax) {
                 $html = '<td align="right"' . ($gen == 0 ? ' abbr="c' . $f2load . '"' : '') . '>' . $html . '</td>' . $this->drawHorizontalLine();
@@ -229,6 +229,8 @@ class MultTreeViewMod
     }
 
     /**
+     * EW.H - MOD ... added parm 'earmark' 
+     * 
      * Draw a person in the tree
      *
      * @param Individual  $person The Person object to draw the box for
@@ -263,7 +265,7 @@ class MultTreeViewMod
 
         if ($state <= 0) {
             // draw children
-            $html .= $this->drawChildren($person->spouseFamilies(), $earmark, $gen);
+            $html .= $this->drawChildren($person->spouseFamilies(), $earmark, $gen);        # EW.H - MOD
         } else {
             // draw the parent’s lines
             $html .= $this->drawVerticalLine($line) . $this->drawHorizontalLine();
@@ -316,7 +318,7 @@ class MultTreeViewMod
             if ($parent instanceof Individual) {
                 $u = $unique ? 'c' : 't';
                 $html .= '<tr><td ' . ($gen == 0 ? ' abbr="p' . $primaryChildFamily->xref() . '@' . $u . '"' : '') . '>';
-                $html .= $this->drawPerson($parent, $earmark, $gen - 1, 1, $primaryChildFamily, $u, false);
+                $html .= $this->drawPerson($parent, $earmark, $gen - 1, 1, $primaryChildFamily, $u, false);             # EW.H - MOD
                 $html .= '</td></tr>';
             }
 
@@ -326,7 +328,7 @@ class MultTreeViewMod
                 foreach ($fop as $p) {
                     $n++;
                     $u = $unique ? 'c' : ($n == $nb || empty($p[1]) ? 'b' : 'h');
-                    $html .= '<tr><td ' . ($gen == 0 ? ' abbr="p' . $p[1]->xref() . '@' . $u . '"' : '') . '>' . $this->drawPerson($p[0], $earmark, $gen - 1, 1, $p[1], $u, false) . '</td></tr>';
+                    $html .= '<tr><td ' . ($gen == 0 ? ' abbr="p' . $p[1]->xref() . '@' . $u . '"' : '') . '>' . $this->drawPerson($p[0], $earmark, $gen - 1, 1, $p[1], $u, false) . '</td></tr>';      # EW.H - MOD
                 }
             }
             $html .= '</tbody></table></td>';
@@ -339,7 +341,7 @@ class MultTreeViewMod
         $html .= '</tr></tbody></table>';
 
         if ($isRoot) {
-            $html .= '</td><td id="tv' . $earmark . '_tree_right"></td></tr><tr><td id="tv' . $earmark . '_tree_bottomleft"></td><td id="tv' . $earmark . '_tree_bottom"></td><td id="tv' . $earmark . '_tree_bottomright"></td></tr></tbody></table>';
+            $html .= '</td><td id="tv' . $earmark . '_tree_right"></td></tr><tr><td id="tv' . $earmark . '_tree_bottomleft"></td><td id="tv' . $earmark . '_tree_bottom"></td><td id="tv' . $earmark . '_tree_bottomright"></td></tr></tbody></table>';         # EW.H - MOD
         }
 
         return $html;
