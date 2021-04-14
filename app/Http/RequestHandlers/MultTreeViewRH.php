@@ -122,18 +122,9 @@ class MultTreeViewRH implements RequestHandlerInterface
     */
     private function modRoot(): string
     {
-        if (isset($_SERVER['HTTPS'])) {
-            $protocol = ($_SERVER['HTTPS'] && strtolower($_SERVER['HTTPS']) !== 'off') ? 'https' : 'http';
-        }
-        else {
-            $protocol = 'http';
-        }
-
-        $doc_root = $_SERVER['DOCUMENT_ROOT'];
-        $file_path = realpath(dirname(__FILE__, 3));            // EW.H - MOD ... actually 3 levels higher than actual file
-        $file_path = substr($file_path, strlen($doc_root));
-
-        return $protocol . '://' . $_SERVER['HTTP_HOST'] . $file_path;
+        $file_path = e(asset('snip/'));
+        $file_path = str_replace("/public/snip/", "", $file_path) . "/modules_v4/huhwt-mtv";
+        return $file_path;
     }
 
     /**
