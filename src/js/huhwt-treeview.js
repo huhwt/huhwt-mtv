@@ -71,7 +71,7 @@ function TreeViewHandlerMTV (tv_kenn, ged) {
       if (dragging) {
         event.preventDefault();
         dragging = false;
-        tv.updateTree();
+        // tv.updateTree(false);
       }
     });
   })();
@@ -89,34 +89,34 @@ function TreeViewHandlerMTV (tv_kenn, ged) {
       document.location = document.location;
     };
   });
-  tv.toolbox.find('#' + tv_kenn + 'bOpen').each(function (index, tvbOpen) {
-    var b = $(tvbOpen, tv.toolbox);
-    tvbOpen.onclick = function () {
-      b.addClass('tvPressed');
-      tv.setLoading();
-      var e = jQuery.Event('click');
-      tv.treeview.find('.tv_box:not(.boxExpanded)').each(function (index, box) {
-        var pos = $(box, tv.treeview).offset();
-        if (pos.left >= tv.leftMin && pos.left <= tv.leftMax && pos.top >= tv.topMin && pos.top <= tv.topMax) {
-          tv.expandBox(box, e);
-        }
-      });
-      b.removeClass('tvPressed');
-      tv.setComplete();
-    };
-  });
-  tv.toolbox.find('#' + tv_kenn + 'bClose').each(function (index, tvbClose) {
-    var b = $(tvbClose, tv.toolbox);
-    tvbClose.onclick = function () {
-      b.addClass('tvPressed');
-      tv.setLoading();
-      tv.treeview.find('.tv_box.boxExpanded').each(function (index, box) {
-        $(box).css('display', 'none').removeClass('boxExpanded').parent().find('.tv_box.collapsedContent').css('display', 'block');
-      });
-      b.removeClass('tvPressed');
-      tv.setComplete();
-    };
-  });
+//   tv.toolbox.find('#' + tv_kenn + 'bOpen').each(function (index, tvbOpen) {
+//     var b = $(tvbOpen, tv.toolbox);
+//     tvbOpen.onclick = function () {
+//       b.addClass('tvPressed');
+//       tv.setLoading();
+//       var e = jQuery.Event('click');
+//       tv.treeview.find('.tv_box:not(.boxExpanded)').each(function (index, box) {
+//         var pos = $(box, tv.treeview).offset();
+//         if (pos.left >= tv.leftMin && pos.left <= tv.leftMax && pos.top >= tv.topMin && pos.top <= tv.topMax) {
+//           tv.expandBox(box, e);
+//         }
+//       });
+//       b.removeClass('tvPressed');
+//       tv.setComplete();
+//     };
+//   });
+//   tv.toolbox.find('#' + tv_kenn + 'bClose').each(function (index, tvbClose) {
+//     var b = $(tvbClose, tv.toolbox);
+//     tvbClose.onclick = function () {
+//       b.addClass('tvPressed');
+//       tv.setLoading();
+//       tv.treeview.find('.tv_box.boxExpanded').each(function (index, box) {
+//         $(box).css('display', 'none').removeClass('boxExpanded').parent().find('.tv_box.collapsedContent').css('display', 'block');
+//       });
+//       b.removeClass('tvPressed');
+//       tv.setComplete();
+//     };
+//   });
 
   tv.centerOnRoot(); // fire ajax update if needed, which call setComplete() when all is loaded
 }
@@ -177,6 +177,8 @@ TreeViewHandlerMTV.prototype.updateTree = function (center, button) {
   });
   // if some boxes need update, we perform an ajax request
   if (to_load.length > 0) {
+    var root_element = $('.rootPerson', this.treeview);
+    var l = root_element.offset().left;
     tv.updating = true;
     tv.setLoading();
     jQuery.ajax({
@@ -185,11 +187,12 @@ TreeViewHandlerMTV.prototype.updateTree = function (center, button) {
       data: 'q=' + to_load.join(';'),
       success: function (ret) {
         var nb = elts.length;
-        var root_element = $('.rootPerson', this.treeview);
-        var l = root_element.offset().left;
         for (var i = 0; i < nb; i++) {
           elts[i].removeAttr('abbr').html(ret[i]);
         }
+        // repositionning
+        root_element = $('.rootPerson', this.treeview);
+        tv.treeview.offset({left: tv.treeview.offset().left - root_element.offset().left +l});
         // we now ajust the draggable treeview size to its content size
         tv.getSize();
       },
@@ -252,7 +255,7 @@ TreeViewHandlerMTV.prototype.compact = function (tv_kenn) {
       createCookie(tv_kenn + 'compact', true, tv.cookieDays);
     }
     if (!tv.updating) {
-      tv.updateTree();
+    //   tv.updateTree(false);
     }
     b.addClass('tvPressed');
   }
@@ -274,7 +277,11 @@ TreeViewHandlerMTV.prototype.centerOnRoot = function () {
   var tvc_height = tvc.innerHeight() / 2;
   var root_person = $('.rootPerson', this.treeview);
 
+  var dLeft = tvc.offset().left + this.treeview.offset().left + tvc_width - root_person.offset().left - root_person.outerWidth/2;
+  var dTop = tvc.offset().top + this.treeview.offset().top + tvc_height + root_person.offset().top - root_person.outerHeight/2;
+  this.treeview.offset({left: dLeft, top: dTop});
   if (!this.updating) {
+    // tv.updateTree(true);
     tv.setComplete();
   }
   return false;
