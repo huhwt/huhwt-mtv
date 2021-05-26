@@ -20,6 +20,13 @@ Installation and upgrading
 --------------------------
 ... in the usual way: Download the zip file, unzip it into the modules_v4 directory, and that's it. You should remove the existing version completely before.
 
+Thanks
+--------------------------
+
+Special thanks to Hermann Harthentaler for the test, suggestions and criticism.
+
+Thanks to TheDutchJewel for the translation into Dutch.
+
 Development
 -------------------------
 

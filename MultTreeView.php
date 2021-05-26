@@ -92,7 +92,7 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
      * @return string
      */
     public function customModuleVersion(): string {
-        return '1.2.2';
+        return '1.2.3';
     }
 
     /**
@@ -134,17 +134,14 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
      */
     public function customTranslations(string $language): array
     {
-        switch ($language) {
-            case 'de':
-            case 'de_DE':
-            // Arrays are preferred, and faster.
-            // If your module uses .MO files, then you can convert them to arrays like this.
-            $Tpath = __DIR__ . '/resources/lang/de/messages.po';
-            return (new Translation($Tpath))->asArray();
-
-        default:
-            return [];
-            }
+        // no differentiation according to language variants
+        $_language = substr($language, 0, 2);
+        $ret = [];
+        $languageFile = $this->resourcesFolder() . 'lang/' . $_language . '.po';
+        if (file_exists($languageFile)) {
+            $ret = (new Translation($languageFile))->asArray();
+        }
+        return $ret;
     }
 
     /**

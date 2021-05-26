@@ -16,10 +16,17 @@ Dann ist es praktisch eine Funktion zu haben, um die Daten mit visuellen Hilfsmi
 
 Die Abgleichliste in der 'Duplikate'-Ansicht für 'Personen' wird um einen Eintrag 'Interaktiver Vergleich' erweitert, der ein 'Interaktives Sanduhr-Diagramm' für jedes Individuum zusammen auf dem Bildschirm anzeigt. Dies geschieht auch wenn mehr als 2 Personen von der Funktion erfasst werden. 
 
-Installation and upgrading
+Installation und Upgrading
 --------------------------
 
 ... auf die übliche Art und Weise: Laden Sie die Zip-Datei herunter, entpacken Sie sie in das modules_v4-Verzeichnis, und das war's. Man sollte die vorhandene Version vorher komplett entfernen.
+
+Danksagung
+--------------------------
+
+Fürs Test, Anregungen und Kritik besonderen Dank an Hermann Harthentaler.
+
+Danke für die Übersetzung ins Niederländische an TheDutchJewel.
 
 Development
 -------------------------
