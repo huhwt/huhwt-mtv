@@ -28,7 +28,7 @@ let mix = require('laravel-mix');
 let config = require('./webpack.mix.config');
 require('laravel-mix-clean');
 
-const version  = '1.2.3';
+const version  = '1.2.4';
 const dist_dir = 'dist/huhwt-mtv';
 const dist_root = 'dist';
 
