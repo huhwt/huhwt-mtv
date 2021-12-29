@@ -42,6 +42,7 @@ mix
     .copyDirectory(config.app_dir, dist_dir)
     .copy(config.dev_dir + '/js/huhwt-treeview.js', dist_dir + '/resources/js/huhwt.min.js')
     .copy(config.dev_dir + '/lang/de/messages.po', dist_dir + '/resources/lang/de/messages.po')
+    .copy(config.dev_dir + '/lang/nl/messages.po', dist_dir + '/resources/lang/nl/messages.po')
     .copy('autoload.php', dist_dir)
     .copy('module.php', dist_dir)
     .copy('MultTreeView.php', dist_dir)
