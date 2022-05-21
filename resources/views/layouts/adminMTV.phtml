@@ -32,7 +32,7 @@ use Fisharebest\Webtrees\View;
         <link rel="stylesheet" href="<?= e(asset('css/vendor.min.css')) ?>">
         <link rel="stylesheet" href="<?= e(asset('css/administration.min.css')) ?>">
         <!-- EW.H - MOD ... inject own style -->
-        <link rel="stylesheet" href="<?=  $modRoot . '/resources/css/huhwt.min.css' . '?v=1.2.3' ?>">
+        <link rel="stylesheet" href="<?=  $modRoot . '/resources/css/huhwt.min.css' . '?v=2.1.1.0' ?>">
         <!--            -->
 
         <?= View::stack('styles') ?>
@@ -41,7 +41,11 @@ use Fisharebest\Webtrees\View;
     return $module instanceof ModuleCustomInterface || $module instanceof CustomCssJsModule ? '' : $module->headContent();
         })->implode('') ?>
 
-        <?= DebugBar::renderHead() ?>
+        <?php try {
+              DebugBar::renderHead();
+         } catch (Throwable  $e) {
+            //  echo('DebugBar not found');         // EW.H - Mod ... DebugBar removed in wt2.1
+         }?>
     </head>
     <body class="container-lg wt-global wt-control-panel">
         <!-- EW.H - MOD ... adminMTV.phtml -->
@@ -89,7 +93,7 @@ use Fisharebest\Webtrees\View;
         <script src="<?= e(asset('js/vendor.min.js')) ?>"></script>
         <script src="<?= e(asset('js/webtrees.min.js')) ?>"></script>
         <!-- EW.H - MOD ... inject own script referenced by event -->
-        <script src="<?=  $modRoot . '/resources/js/huhwt.min.js' . '?v=1.2.3' ?>"></script>
+        <script src="<?=  $modRoot . '/resources/js/huhwt.min.js' . '?v=2.1.1.0' ?>"></script>
         <!--            -->
 
         <?= View::stack('javascript') ?>    <!-- EW.H - MOD ... here goes declaration of MTV-events -->
@@ -97,7 +101,10 @@ use Fisharebest\Webtrees\View;
         <?= app(ModuleService::class)->findByInterface(ModuleGlobalInterface::class)->map(static function (ModuleGlobalInterface $module): string {
     return $module instanceof ModuleCustomInterface || $module instanceof CustomCssJsModule ? '' : $module->bodyContent();
         })->implode('') ?>
-
-        <?= DebugBar::render() ?>
+        <?php try {
+              DebugBar::render();
+         } catch (Throwable  $e) {
+            //  echo('DebugBar not found');         // EW.H - Mod ... DebugBar removed in wt2.1
+        }?>
     </body>
 </html>

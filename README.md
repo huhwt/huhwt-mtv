@@ -2,8 +2,8 @@
 ============================
 
 [![Latest Release](https://img.shields.io/github/v/release/huhwt/huhwt-mtv)][1]
-[![webtrees major version](https://img.shields.io/badge/webtrees-v2.x-green)][2]
-[![Downloads](https://img.shields.io/github/downloads/huhwt/huhwt-mtv/v1.0/total)]()
+[![webtrees major version](https://img.shields.io/badge/webtrees-v2.1-green)][2]
+[![Downloads](https://img.shields.io/github/downloads/huhwt/huhwt-mtv/v2.1/total)]()
 
 Extensions for webtrees to check and display duplicate Individuals in the database.
 

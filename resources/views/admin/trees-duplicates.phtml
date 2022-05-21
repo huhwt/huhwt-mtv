@@ -19,7 +19,7 @@ $cat_checkI = I18N::translate('Individuals');       /** EW.H - MOD ... übersetz
 
     <?php if (!empty($records)) : ?>
         <h2><?= $category ?></h2> <?= I18N::translate('count') ?>: <?= count($records) ?>
-        <ol>
+        <ul>
             <?php foreach ($records as $duplicates) : ?>
                 <li>
                     <?php $dt = $duplicates[0]->fullName() ?>
@@ -52,7 +52,7 @@ $cat_checkI = I18N::translate('Individuals');       /** EW.H - MOD ... übersetz
                     <?php endif ?>
                 </li>
             <?php endforeach ?>
-        </ol>
+        </ul>
     <?php else : ?>
         <h2><?= $category ?></h2>
         <p><?= I18N::translate('No duplicates have been found.') ?></p>

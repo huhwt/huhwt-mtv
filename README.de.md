@@ -2,8 +2,8 @@
 ============================
 
 [![Latest Release](https://img.shields.io/github/v/release/huhwt/huhwt-mtv)][1]
-[![webtrees major version](https://img.shields.io/badge/webtrees-v2.x-green)][2]
-[![Downloads](https://img.shields.io/github/downloads/huhwt/huhwt-mtv/v1.0/total)]()
+[![webtrees major version](https://img.shields.io/badge/webtrees-v2.1-green)][2]
+[![Downloads](https://img.shields.io/github/downloads/huhwt/huhwt-mtv/v2.1/total)]()
 
 Erweiterungen für Webtrees zur Prüfung und Anzeige von Duplikaten und anderen Inkonsistenzen in der Datenbank.
 
