@@ -137,7 +137,7 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
         // no differentiation according to language variants
         $_language = substr($language, 0, 2);
         $ret = [];
-        $languageFile = $this->resourcesFolder() . 'lang/' . $_language . '.po';
+        $languageFile = $this->resourcesFolder() . 'lang/' . $language . '/messages.po';
         if (file_exists($languageFile)) {
             $ret = (new Translation($languageFile))->asArray();
         }
