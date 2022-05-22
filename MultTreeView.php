@@ -92,7 +92,7 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
      * @return string
      */
     public function customModuleVersion(): string {
-        return '2.1.1.0';
+        return '2.1.1.0.1';
     }
 
     /**
