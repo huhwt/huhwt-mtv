@@ -2,7 +2,7 @@
 
 /**
  * webtrees: online genealogy
- * Copyright (C) 2021 webtrees development team
+ * Copyright (C) 2022 webtrees development team
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -13,6 +13,10 @@
  * GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ * 
+ * HuH Extensions for webtrees - Multi-Treeview
+ * Extensions for webtrees to check and display duplicate Individuals in the database.
+ * Copyright (C) 2020-2022 EW.Heinrich
  */
 
 declare(strict_types=1);

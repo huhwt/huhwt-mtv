@@ -13,6 +13,10 @@
  * GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * HuH Extensions for webtrees - Multi-Treeview
+ * Extensions for webtrees to check and display duplicate Individuals in the database.
+ * Copyright (C) 2020-2022 EW.Heinrich
  */
 
 declare(strict_types=1);

@@ -1,6 +1,13 @@
 <?php
 
-use Fisharebest\Webtrees\DebugBar;
+/**
+ * HuH Extensions for webtrees - Multi-Treeview
+ * Extensions for webtrees to check and display duplicate Individuals in the database.
+ * Copyright (C) 2020-2022 EW.Heinrich
+ * 
+ * derived from resources/views/layouts/administration.phtml
+ */
+
 use Fisharebest\Webtrees\FlashMessages;
 use Fisharebest\Webtrees\Http\RequestHandlers\Logout;
 use Fisharebest\Webtrees\Http\RequestHandlers\HomePage;
@@ -41,11 +48,6 @@ use Fisharebest\Webtrees\View;
     return $module instanceof ModuleCustomInterface || $module instanceof CustomCssJsModule ? '' : $module->headContent();
         })->implode('') ?>
 
-        <?php try {
-              DebugBar::renderHead();
-         } catch (Throwable  $e) {
-            //  echo('DebugBar not found');         // EW.H - Mod ... DebugBar removed in wt2.1
-         }?>
     </head>
     <body class="container-lg wt-global wt-control-panel">
         <!-- EW.H - MOD ... adminMTV.phtml -->
@@ -101,10 +103,5 @@ use Fisharebest\Webtrees\View;
         <?= app(ModuleService::class)->findByInterface(ModuleGlobalInterface::class)->map(static function (ModuleGlobalInterface $module): string {
     return $module instanceof ModuleCustomInterface || $module instanceof CustomCssJsModule ? '' : $module->bodyContent();
         })->implode('') ?>
-        <?php try {
-              DebugBar::render();
-         } catch (Throwable  $e) {
-            //  echo('DebugBar not found');         // EW.H - Mod ... DebugBar removed in wt2.1
-        }?>
     </body>
 </html>

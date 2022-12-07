@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * HuH Extensions for webtrees - Multi-Treeview
+ * Extensions for webtrees to check and display duplicate Individuals in the database.
+ * Copyright (C) 2020-2022 EW.Heinrich
+ */
+
 declare(strict_types=1);
 
 namespace HuHwt\WebtreesMods;
@@ -92,7 +98,7 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
      * @return string
      */
     public function customModuleVersion(): string {
-        return '2.1.4.0.2';
+        return '2.1.12.0';
     }
 
     /**
@@ -137,7 +143,7 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
         // no differentiation according to language variants
         $_language = substr($language, 0, 2);
         $ret = [];
-        $languageFile = $this->resourcesFolder() . 'lang/' . $language . '/messages.po';
+        $languageFile = $this->resourcesFolder() . 'lang/' . $_language . '.po';
         if (file_exists($languageFile)) {
             $ret = (new Translation($languageFile))->asArray();
         }

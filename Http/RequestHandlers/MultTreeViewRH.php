@@ -13,6 +13,10 @@
  * GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * HuH Extensions for webtrees - Multi-Treeview
+ * Extensions for webtrees to check and display duplicate Individuals in the database.
+ * Copyright (C) 2020-2022 EW.Heinrich
  */
 
 declare(strict_types=1);
@@ -30,6 +34,7 @@ use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Session;
 use Fisharebest\Webtrees\Tree;
+use Fisharebest\Webtrees\Validator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -137,10 +142,9 @@ class MultTreeViewRH implements RequestHandlerInterface
     {
         $this->layout = 'layouts/adminMTV';
 
-        $tree = $request->getAttribute('tree');
-        assert($tree instanceof Tree);
+        $tree = Validator::attributes($request)->tree();
 
-        $xref_s = $request->getQueryParams()['xrefs'] ?? '';
+        $xref_s = Validator::queryParams($request)->string('xrefs', '');
         $xrefs = explode(",", $xref_s);
         $xref1 = $xrefs[0];
         $xref2 = $xrefs[1];

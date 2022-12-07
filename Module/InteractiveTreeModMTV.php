@@ -2,7 +2,7 @@
 
 /**
  * webtrees: online genealogy
- * Copyright (C) 2021 webtrees development team
+ * Copyright (C) 2022 webtrees development team
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -13,6 +13,10 @@
  * GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ * 
+ * HuH Extensions for webtrees - Multi-Treeview
+ * Extensions for webtrees to check and display duplicate Individuals in the database.
+ * Copyright (C) 2020-2022 EW.Heinrich
  */
 
 declare(strict_types=1);
@@ -21,8 +25,6 @@ declare(strict_types=1);
 namespace HuHwt\WebtreesMods\Module\InteractiveTree;
 
 use Fisharebest\Webtrees\Auth;
-use Fisharebest\Webtrees\Exceptions\IndividualAccessDeniedException;
-use Fisharebest\Webtrees\Exceptions\IndividualNotFoundException;
 use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
@@ -30,6 +32,7 @@ use Fisharebest\Webtrees\Menu;
 // use Fisharebest\Webtrees\Module\InteractiveTree\TreeView;
 use Fisharebest\Webtrees\Module\InteractiveTreeModule;
 use Fisharebest\Webtrees\Tree;
+use Fisharebest\Webtrees\Validator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -58,10 +61,7 @@ class InteractiveTreeModMTV extends InteractiveTreeModule implements
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $tree = $request->getAttribute('tree');
-        assert($tree instanceof Tree);
-
-        $action = $request->getQueryParams()['action'];
+        $action = Validator::queryParams($request)->string('action', '');
 
         if ( $action == 'Details' ) {
             return $this->getDetailsAction($request);
@@ -83,22 +83,12 @@ class InteractiveTreeModMTV extends InteractiveTreeModule implements
      */
     public function getDetailsAction(ServerRequestInterface $request): ResponseInterface
     {
-        $tree = $request->getAttribute('tree');
-        assert($tree instanceof Tree);
-
-        $pid        = $request->getQueryParams()['pid'];
+        $tree       = Validator::attributes($request)->tree();
+        $pid        = Validator::queryParams($request)->string('pid', '');
         $individual = Registry::individualFactory()->make($pid, $tree);
-
-        if ($individual === null) {
-            throw new IndividualNotFoundException();
-        }
-
-        if (!$individual->canShow()) {
-            throw new IndividualAccessDeniedException();
-        }
-
-        $instance = $request->getQueryParams()['instance'];
-        $treeview = new MultTreeViewMod($instance);                 // EW.H MOD ... set own Treeview-Instance
+        $individual = Auth::checkIndividualAccess($individual);
+        $instance   = Validator::queryParams($request)->string('instance', '');
+        $treeview   = new MultTreeViewMod($instance);                 // EW.H MOD ... set own Treeview-Instance
 
         return response($treeview->getDetails($individual));
     }
@@ -112,13 +102,11 @@ class InteractiveTreeModMTV extends InteractiveTreeModule implements
      */
     public function getIndividualsAction(ServerRequestInterface $request): ResponseInterface
     {
-        $tree = $request->getAttribute('tree');
-        assert($tree instanceof Tree);
-
-        $q        = $request->getQueryParams()['q'];
-        $instance = $request->getQueryParams()['instance'];
+        $tree = Validator::attributes($request)->tree();
+        $q        = Validator::queryParams($request)->string('q', '');
+        $instance = Validator::queryParams($request)->string('instance', '');
         $earmark   = substr($instance, 2);                           // EW.H MOD ... extract Earmark for Treeview-Instance
-        $treeview = new MultTreeViewMod($instance);                 // EW.H MOD ... set own Treeview-Instance
+        $treeview = new MultTreeViewMod($instance);                  // EW.H MOD ... set own Treeview-Instance
 
         return response($treeview->getIndividuals($tree, $earmark, $q));
     }

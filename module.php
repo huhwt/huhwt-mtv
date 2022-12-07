@@ -3,7 +3,7 @@
 /**
  * HuH Extensions for webtrees - Multi-Treeview
  * Extensions for webtrees to check and display duplicate Individuals in the database.
- * Copyright (C) 2020-2021 EW.Heinrich
+ * Copyright (C) 2020-2022 EW.Heinrich
  *
  * Based on webtrees: online genealogy
  * Copyright (C) 2020 webtrees development team
