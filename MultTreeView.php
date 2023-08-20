@@ -98,7 +98,7 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
      * @return string
      */
     public function customModuleVersion(): string {
-        return '2.1.12.0';
+        return '2.1.17.0';
     }
 
     /**
@@ -108,7 +108,7 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
      * @return string
      */
     public function customModuleLatestVersionUrl(): string {
-        return 'https://github.com/huhwt/huhwt-mtv/master/latest-version.txt';
+        return 'https://github.com/huhwt/huhwt-mtv/blob/master/latest-version.txt';
     }
 
     /**
