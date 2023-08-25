@@ -44,3 +44,16 @@ msgstr "Ende "
 #: resources/views/layouts/trees-duplicates.phtml:21
 msgid "count"
 msgstr "Anzahl"
+
+#: Ergänzung Config-Panel
+msgid "Options for stricter selection through additional clauses"
+msgstr "Optionen für strengere Auswahl durch zusätzliche Klauseln"
+
+msgid "only"
+msgstr "nur"
+
+msgid "Match only in"
+msgstr "Übereinstimmung nur in"
+
+msgid "(omitted)"
+msgstr "(entfällt)"

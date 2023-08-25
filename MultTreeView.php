@@ -15,6 +15,7 @@ use Aura\Router\Map;
 // use Fig\Http\Message\RequestMethodInterface;
 use fisharebest\Localization\Translation;
 use Fisharebest\webtrees\module\AbstractModule;
+use Fisharebest\Webtrees\Module\ModuleConfigInterface;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
 use Fisharebest\Webtrees\Module\ModuleCustomTrait;
 // use Fisharebest\Webtrees\Module\ModuleChartInterface;
@@ -45,9 +46,12 @@ use Fisharebest\Webtrees\Module\ModuleGlobalTrait;
 // use Psr\Http\Message\ServerRequestInterface;
 // use Psr\Http\Server\RequestHandlerInterface;
 
+use Fisharebest\Webtrees\Module\ModuleConfigTrait;
 
 use HuHwt\WebtreesMods\Http\RequestHandlers\MultTreeViewRH;
+use HuHwt\WebtreesMods\Http\RequestHandlers\FindDuplicateRecordsMTV;
 use HuHwt\WebtreesMods\Module\InteractiveTree\InteractiveTreeModMTV;
+use HuHwt\WebtreesMods\Traits\MultTVconfigTrait;
 
 use function app;
 // use function array_keys;
@@ -65,11 +69,14 @@ use function view;
 /**
  * Class MultTreeView
  */
-class MultTreeView extends AbstractModule implements ModuleCustomInterface, ModuleInterface, ModuleGlobalInterface
+class MultTreeView extends AbstractModule implements ModuleCustomInterface, ModuleInterface, ModuleGlobalInterface, ModuleConfigInterface
 {
     use ModuleCustomTrait;
     use ModuleGlobalTrait;
     use ViewResponseTrait;
+    use ModuleConfigTrait;
+
+    use MultTVconfigTrait;
 
     private const ROUTE_DEFAULT = 'huhwt-mult-treeview';
     private const ROUTE_URL = '/tree/{tree}/mult-treeview&xrefs={xrefs}';
@@ -98,7 +105,7 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
      * @return string
      */
     public function customModuleVersion(): string {
-        return '2.1.17.0';
+        return '2.1.17.1';
     }
 
     /**
@@ -143,7 +150,7 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
         // no differentiation according to language variants
         $_language = substr($language, 0, 2);
         $ret = [];
-        $languageFile = $this->resourcesFolder() . 'lang/' . $_language . '.po';
+        $languageFile = $this->resourcesFolder() . 'lang/' . $_language . '/messages.po';
         if (file_exists($languageFile)) {
             $ret = (new Translation($languageFile))->asArray();
         }
@@ -213,13 +220,27 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
                 ],
             ]);
 
+            // $all_routes = $router->getRoutes();
+            // // $allkeys = array_keys($all_routes);
+            // foreach ($all_routes as $key => $aroute) {
+            //     if ($aroute->name == 'Fisharebest\Webtrees\Http\RequestHandlers\FindDuplicateRecords') {
+            //         unset($all_routes[$key]);
+            //     }
+            // }
+            // $router->setRoutes($all_routes);
+
             $router->get(MultTreeViewRH::class, '/mult-treeview'); 
 
+            $router->get(FindDuplicateRecordsMTV::class, '/duplicatesMTV');    // EW.H MOD - redefining AdminService for enhancing Individuals
+
             $router->get(InteractiveTreeModMTV::class, '/treeMTV'); 
-            });
+
+        });
 
         // Register a namespace for our views.
         View::registerNamespace($this->name(), $this->resourcesFolder() . 'views/');
+
+        View::registerCustomView('::admin/trees', $this->name() . '::admin/trees');
 
         View::registerCustomView('::layouts/adminMTV', $this->name() . '::layouts/adminMTV');
         View::registerCustomView('::admin/trees-duplicates', $this->name() . '::admin/trees-duplicates');

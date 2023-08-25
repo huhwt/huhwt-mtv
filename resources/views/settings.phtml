@@ -1,0 +1,60 @@
+<?php
+
+declare(strict_types=1);
+
+use Fisharebest\Webtrees\Http\RequestHandlers\ControlPanel;
+use Fisharebest\Webtrees\Http\RequestHandlers\ModulesAllPage;
+use Fisharebest\Webtrees\I18N;
+use Fisharebest\Webtrees\Tree;
+use Illuminate\Support\Collection;
+
+/**
+ * @var array<int,string>    $ntype_options
+ * @var int                  $ntypeOption
+ * @var array<int,string>    $dfact_options
+ * @var int                  $dfactOption
+ * @var string               $title
+ */
+
+?>
+
+<?= view('components/breadcrumbs', ['links' => [route(ControlPanel::class) => I18N::translate('Control panel'), route(ModulesAllPage::class) => I18N::translate('Modules'), $title]]) ?>
+
+<h1><?= $title ?></h1>
+<p>
+    <?= I18N::translate('Options for stricter selection through additional clauses') ?>
+</p>
+
+<form method="post">
+    <div class="row mb-3">
+        <legend class="col-sm-3 col-form-label">
+            <?= /* I18N: Configuration option */
+            I18N::translate("ntype Option - 'n_type' = ...") ?>
+        </legend>
+        <div class="col-sm-9">
+            <?= view('components/radios', ['name' => 'ntypeOption', 'selected' => $ntypeOption, 'options' => $ntype_options]) ?>
+        </div>
+    </div>
+
+    <fieldset class="row mb-3">
+        <legend class="col-form-label col-sm-3" for="dfactOption">
+            <?= /* I18N: Configuration option */
+            I18N::translate("dfact Option - 'd_fact' = ...") ?>
+        </legend>
+        <div class="col-sm-9">
+            <?= view('components/radios', ['name' => 'dfactOption', 'selected' => $dfactOption, 'options' => $dfact_options]) ?>
+        </div>
+
+    </fieldset>
+
+    <div class="row mb-3">
+        <div class="offset-sm-3 col-sm-9">
+            <button type="submit" class="btn btn-primary">
+                <?= view('icons/save') ?>
+                <?= I18N::translate('save') ?>
+            </button>
+        </div>
+    </div>
+
+    <?= csrf_field() ?>
+</form>
