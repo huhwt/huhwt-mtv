@@ -38,6 +38,8 @@ Special thanks to Hermann Harthentaler for the test, suggestions and criticism.
 
 Thanks to TheDutchJewel for the translation into Dutch.
 
+Thanks to BernatBanyuls for the translations into Catalan und Spanish.
+
 Development
 -------------------------
 

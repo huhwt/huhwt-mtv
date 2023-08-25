@@ -1,0 +1,46 @@
+msgid ""
+msgstr "Project-Id-Version: 1.0\nPOT-Creation-Date: 22.10.2020\nPO-Revision-Date: \nLast-Translator: EW.H <ewh@huh-netz.de>\nLanguage-Team: \nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nLanguage: de\nX-Generator: Poedit 2.4.1\n"
+
+#: MultTreeView.php:126
+msgid "MultTreeView"
+msgstr "Gráfico múltiple"
+
+#: app/Http/RequestHandlers/MultTreeViewRH.php:87
+msgid "Check tree of %s"
+msgstr "Diagrama de reloj de arena de %s"
+
+#: app/Http/RequestHandlers/MultTreeViewRH.php:94
+msgid "Tree of %s"
+msgstr "Gráfico de reloj de arena de %s"
+
+#: app/Http/RequestHandlers/MultTreeViewRH.php:94
+msgid "List of Individuals"
+msgstr "Visión general de personas"
+
+#: resources/views/admin/trees-duplicates.phtml:45
+msgid "Interactive check"
+msgstr "Comparación interactiva"
+
+#: resources/views/layouts/default.phtml:210
+msgid "previous "
+msgstr "anterior "
+
+#: resources/views/layouts/default.phtml:211
+msgid "next "
+msgstr "próximo "
+
+#: resources/views/layouts/default.phtml:212
+msgid "Play "
+msgstr "Empezar "
+
+#: resources/views/layouts/default.phtml:213
+msgid "Stop "
+msgstr "Parar "
+
+#: resources/views/layouts/default.phtml:214
+msgid "close "
+msgstr "Fin "
+
+#: resources/views/layouts/trees-duplicates.phtml:21
+msgid "count"
+msgstr "Número"

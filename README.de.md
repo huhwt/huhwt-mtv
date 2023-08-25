@@ -39,6 +39,8 @@ Fürs Test, Anregungen und Kritik besonderen Dank an Hermann Harthentaler.
 
 Danke für die Übersetzung ins Niederländische an TheDutchJewel.
 
+Danke für die Übersetzungen ins Catalanische und Spanische an BernatBanyuls.
+
 Development
 -------------------------
 
