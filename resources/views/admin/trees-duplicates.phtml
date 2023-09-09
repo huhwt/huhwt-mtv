@@ -26,7 +26,8 @@ $cat_checkI = I18N::translate('Individuals');       /** EW.H - MOD ... übersetz
 <?php foreach ($duplicates as $category => $records) : ?>
 
     <?php if (!empty($records)) : ?>
-        <h2><?= $category ?></h2> <?= I18N::translate('count') ?>: <?= count($records) ?>
+        <?php $txt_cnt =  I18N::translate('count'); ?>
+        <h2><?= $category ?></h2> <?= $txt_cnt . " " . $category ?>: <?= count($records) ?> - <?= $txt_cnt . " " . I18N::translate('XREFs') ?>: <?= $dup_cnts[$category] ?>
         <ul>
             <?php foreach ($records as $duplicates) : ?>
                 <li>
@@ -50,6 +51,9 @@ $cat_checkI = I18N::translate('Individuals');       /** EW.H - MOD ... übersetz
                             <?= I18N::translate('Merge') ?>
                         </a>
                     <?php endif ?>
+                    <?php if (count($duplicates) > 2) : ?>
+                            — ...
+                        <?php endif ?>
                     <?php if ($category === $cat_checkI) : ?>       <? /** EW.H - MOD ... Zusatzaktion bei 'Individuals' */ ?>
                         <?php $xrefs = implode(",", $xrefs) ?>
                         —
