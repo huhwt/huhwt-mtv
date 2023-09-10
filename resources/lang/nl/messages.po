@@ -11,51 +11,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.3.2\n"
 
-#: MultTreeView.php:126
 msgid "MultTreeView"
 msgstr "Weergave met meerdere bomen"
 
-#: app/Http/RequestHandlers/MultTreeViewRH.php:87
 msgid "Check tree of %s"
 msgstr "Controleer interactieve boom van %s"
 
-#: app/Http/RequestHandlers/MultTreeViewRH.php:94
 msgid "Tree of %s"
 msgstr "Interactieve boom van %s"
 
-#: app/Http/RequestHandlers/MultTreeViewRH.php:94
 msgid "List of Individuals"
 msgstr "Personen"
 
-#: resources/views/admin/trees-duplicates.phtml:45
 msgid "Interactive check"
 msgstr "Interactieve controle"
 
-#: resources/views/layouts/default.phtml:210
 msgid "previous "
 msgstr "vorige "
 
-#: resources/views/layouts/default.phtml:211
 msgid "next "
 msgstr "volgende "
 
-#: resources/views/layouts/default.phtml:212
 msgid "Play "
 msgstr "Afspelen "
 
-#: resources/views/layouts/default.phtml:213
 msgid "Stop "
 msgstr "Stop "
 
-#: resources/views/layouts/default.phtml:214
 msgid "close "
 msgstr "sluiten "
 
-#: resources/views/layouts/trees-duplicates.phtml:21
 msgid "count"
 msgstr "aantal"
 
-#: Toevoeging controlepaneel
 msgid "Options for stricter selection through additional clauses"
 msgstr "Opties voor strengere selectie door aanvullende clausules"
 
