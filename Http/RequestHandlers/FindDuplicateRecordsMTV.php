@@ -94,6 +94,10 @@ class FindDuplicateRecordsMTV implements RequestHandlerInterface
         /** EW.H - MOD ... check preferences */
         $ntypeOption = (int) $this->getPreference('ntype_Option');
         $dfactOption = (int) $this->getPreference('dfact_Option');
+        // $ntypeOption = 0; $dfactOption = 0;
+
+        /** EW.H - MOD ... we want to do further actions on "Individuals" */
+        $cat_checkI = I18N::translate('Individuals');       /** EW.H - MOD ... übersetzte Kategorie auswerten */
 
         /** EW.H - MOD ... we have relevant preferences ... */
         if ($ntypeOption > 0 || $dfactOption > 0) {
@@ -104,15 +108,55 @@ class FindDuplicateRecordsMTV implements RequestHandlerInterface
             $dfOpt = $dfactOption > 0 ? $dfact_Options[$dfactOption] : '';
 
             /** EW.H - MOD ... second run: check for duplicate individuals with constraints */
-            $duplicates[I18N::translate('Individuals')] = $this->admin_serviceMTV->duplicateRecordsMTV($tree, $ntOpt, $dfOpt);
+            $duplicates[$cat_checkI] = $this->admin_serviceMTV->duplicateRecordsMTV($tree, $ntOpt, $dfOpt);
         }
 
+        /** EW.H - MOD ... we want duplicate individuals alphabetically ordered */
+        $duplicates[$cat_checkI] = $this->reorder_Individuals($duplicates[$cat_checkI]);
+
         $title      = I18N::translate('Find duplicates') . ' — ' . e($tree->title());
+
+        /** EW.H - MOD ... we want the counts ... */
+        $dup_cnts = array();
+        foreach ($duplicates as $category => $records) {
+            $cnt_dups = 0; 
+            if (!empty($records)) {
+                foreach ($records as $duprefs) {
+                    $cnt_dups += count($duprefs);
+                }
+            }
+            $dup_cnts[$category] = $cnt_dups;
+        }
 
         return $this->viewResponse('admin/trees-duplicates', [
             'duplicates' => $duplicates,
             'title'      => $title,
             'tree'       => $tree,
+            'dup_cnts'   => $dup_cnts,
         ]);
+    }
+
+    private function reorder_Individuals(array $records): array
+    {
+        $inp_recs = array();
+        foreach ($records as $duplicates) {
+            $xref_0 = $duplicates[0];
+            $dt = $xref_0->getAllNames()[0];
+            $xref_0_lifespan = '(' . $xref_0->getBirthDate()->minimumDate()->format('%Y') . '-' . $xref_0->getDeathDate()->maximumDate()->format('%Y') . ')';
+            $dt_fNN = mb_strtoupper($dt['surn'], 'UTF-8')  . '|' . mb_strtoupper($dt['fullNN'], 'UTF-8') . '|' . $xref_0_lifespan;
+            $inp_recs[$dt_fNN] = $duplicates;
+        }
+
+        // ksort($inp_recs, SORT_NATURAL|SORT_FLAG_CASE);
+        // ksort($inp_recs, SORT_NATURAL);
+        ksort($inp_recs);
+
+        $ret_recs = [];
+        foreach ($inp_recs as $key => $rec) {
+            $ret_recs[] = $rec;
+        }
+
+        return $ret_recs;
+
     }
 }
