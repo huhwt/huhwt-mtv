@@ -1,9 +1,13 @@
 msgid ""
 msgstr "Project-Id-Version: 1.0\nPOT-Creation-Date: 22.10.2020\nPO-Revision-Date: \nLast-Translator: EW.H <ewh@huh-netz.de>\nLanguage-Team: \nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nLanguage: de\nX-Generator: Poedit 2.4.1\n"
 
-#: MultTreeView.php:126
+#: MultTreeView.php:169
 msgid "MultTreeView"
 msgstr "Mehrfach-Diagramm"
+
+#: MultTreeView.php:175
+msgid "A treeview-diagram, showing the ancestors and descendants of an individual."
+msgstr "Ein Sanduhrdiagramm, welches die Vorfahren und Nachkommen einer Person darstellt."
 
 #: app/Http/RequestHandlers/MultTreeViewRH.php:87
 msgid "Check tree of %s"
@@ -57,3 +61,7 @@ msgstr "Übereinstimmung nur in"
 
 msgid "(omitted)"
 msgstr "(entfällt)"
+
+#: Ergänzung CCE-Anbindung
+msgid "Add this records to the clippings cart"
+msgstr "Einträge zum Sammelbehälter hinzufügen"

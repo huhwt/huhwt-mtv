@@ -7,6 +7,14 @@
 
 Extensions for webtrees to check and display duplicate Individuals in the database.
 
+Attention:
+~~~
+  This module requires to be operated in a PHP 8.2-onward system 
+  environment due to some features not have been available before.
+
+  Systems with PHP 8.1 environment have to use Release 2.1.17.x.
+~~~
+
 Introduction
 ------------
 
@@ -26,6 +34,10 @@ And this is where it gets difficult. Any event with a date is listed in wt_dates
 I had achieved a certain sharpening of the result with an additional clause in the basic query in the module 'app/Services/AdminService.php'. By restricting the query to entries that only contain the NAME TAG, there were fewer duplicate messages. A further reduction resulted if only relevant events were filtered, that would be BIRT, CHR, BAPM, DEAT, BURI as the contents of the d_fact field in wt_dates.
 
 So that you don't have to intervene in the code of the Webtrees core, these options are now separated out as a separate function, so they are no longer necessarily overwritten by a Webtrees update. You activate it via "Settings" in the administration-all modules-overview. If they are inactive, the original Webtrees function continues to run, if one or both are active, the query is executed accordingly.
+
+##### A notice:
+##### If the extension module ['huhwt-cce'](https://github.com/huhwt/huhwt-cce) is also installed, you can add the displayed people to the ClippingsCart.
+
 
 Installation and upgrading
 --------------------------

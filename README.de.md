@@ -7,6 +7,14 @@
 
 Erweiterungen für Webtrees zur Prüfung und Anzeige von Duplikaten und anderen Inkonsistenzen in der Datenbank.
 
+Hinweis:
+~~~
+   Dieses Modul muss in einer PHP 8.2(aufwärts) System-Umgebung
+   betrieben werden, da relevante Funktionen zuvor nicht verfügbar waren.
+
+   Systeme mit PHP 8.1-Umgebung müssen Release 2.1.17.x verwenden.
+~~~
+
 Einführung
 -----------
 
@@ -26,6 +34,9 @@ Und hier wird es schwierig. Jedes beliebige Event mit Datum ist in wt_dates geli
 Ein gewisse Schärfung des Ergebnisses hatte ich durch eine zusätzliche Klausel in der grundlegenden Abfrage im Modul 'app/Services/AdminService.php' erreicht. Durch Einschränkung der Abfrage auf solche Einträge, welche nur das NAME-TAG enthalten, wurden es weniger Duplikat-Meldungen. Eine weitere Verringerung ergab sich, wenn nur relevante Events gefiltert werden, das wären BIRT, CHR, BAPM, DEAT, BURI als Inhalte des Feldes d_fact in wt_dates.
 
 Damit man nicht in den Code des Webtrees-Kern eingreifen muss, sind diese Optionen jetzt als eigene Funktion ausgegliedert, werden also nicht mehr zwangsläufig durch ein Webtrees-Update überschrieben. Man aktiviert sie über "Einstellungen" in der Verwaltung-Alle Module-Übersicht. Sind sie inaktiv, läuft weiterhin die originale Webtrees-Funktion, ist eine oder beide aktiv, wird die Abfrage entsprechend angepasst ausgeführt.
+
+##### Hinweis:
+##### Falls das Erweiterungs-Modul ['huhwt-cce'](https://github.com/huhwt/huhwt-cce) ebenfalls installiert ist, kann man die angezeigten Personen in den Sammelkorb übernehmen.
 
 Installation und Upgrading
 --------------------------

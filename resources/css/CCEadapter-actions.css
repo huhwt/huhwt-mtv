@@ -1,0 +1,13 @@
+.CCEpopup {
+    display: block;
+    border: 2px dashed darkblue;
+    margin: 10px 5px 10px 5px;
+    font-size: 1.2em;
+    font-weight: 500;
+    background-color: mediumaquamarine;
+    position: absolute;
+    top: 5%;
+    left: 40%;
+    min-width: 250px;
+    z-index: 10;
+}

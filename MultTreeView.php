@@ -3,7 +3,7 @@
 /**
  * HuH Extensions for webtrees - Multi-Treeview
  * Extensions for webtrees to check and display duplicate Individuals in the database.
- * Copyright (C) 2020-2022 EW.Heinrich
+ * Copyright (C) 2020-2023 EW.Heinrich
  */
 
 declare(strict_types=1);
@@ -36,7 +36,7 @@ use Fisharebest\Webtrees\Module\ModuleGlobalInterface;
 use Fisharebest\Webtrees\Module\ModuleGlobalTrait;
 
 // use Fisharebest\Webtrees\Services\LocalizationService;
-// use Fisharebest\Webtrees\Session;
+use Fisharebest\Webtrees\Session;
 // use Fisharebest\Webtrees\Tree;
 // use Illuminate\Database\Capsule\Manager as DB;
 // use Illuminate\Database\Query\Builder;
@@ -85,6 +85,7 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
 
     public function __construct() {
       $this->huh = json_decode('"\u210D"') . "&" . json_decode('"\u210D"') . "wt";
+      Session::put('huhwt-mtv', $this->huh . '-mtv ... (V-' . $this->customModuleVersion() . ')');
     }
 
     /**
@@ -105,7 +106,7 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
      * @return string
      */
     public function customModuleVersion(): string {
-        return '2.1.17.4';
+        return '2.1.18.0';
     }
 
     /**
@@ -171,7 +172,7 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
 
     public function description(): string 
     {
-        return I18N::translate('An interactive tree, showing all the ancestors and descendants of an individual.');
+        return I18N::translate('A treeview-diagram, showing the ancestors and descendants of an individual.');
     }
 
     /**
@@ -219,15 +220,6 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
                     AuthManager::class,
                 ],
             ]);
-
-            // $all_routes = $router->getRoutes();
-            // // $allkeys = array_keys($all_routes);
-            // foreach ($all_routes as $key => $aroute) {
-            //     if ($aroute->name == 'Fisharebest\Webtrees\Http\RequestHandlers\FindDuplicateRecords') {
-            //         unset($all_routes[$key]);
-            //     }
-            // }
-            // $router->setRoutes($all_routes);
 
             $router->get(MultTreeViewRH::class, '/mult-treeview'); 
 

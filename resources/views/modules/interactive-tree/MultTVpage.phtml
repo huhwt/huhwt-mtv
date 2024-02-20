@@ -8,8 +8,13 @@
  * derived from resources/views/modules/interactive-tree/page.phtml    (wt2.0)
  */
 
-use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\View;
+
+/**
+ * @var string          $title
+ * @var array<string>   $html_ar
+ * @var array<string>   $js_ar
+ */
 
 ?>
 
@@ -17,12 +22,12 @@ use Fisharebest\Webtrees\View;
     <?= $title ?>
 </h3>
 
-<?php for ( $i = 0, $iE = count($htmls); $i < $iE; ++$i) : ?>
-    <?php $html = $htmls[$i] ?>
+<?php for ( $i = 0, $iE = count($html_ar); $i < $iE; ++$i) : ?>
+    <?php $html = $html_ar[$i] ?>
     <div class="wt-page-content wt-chart wt-chart-interactive">
         <?= $html ?>
     </div>
-    <?php $js = $jss[$i] ?>
+    <?php $js = $js_ar[$i] ?>
     <?php View::push('javascript') ?>
     <script>
         <?= $js ?>

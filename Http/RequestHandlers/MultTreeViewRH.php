@@ -29,6 +29,7 @@ use Fisharebest\Webtrees\Date;
 use Fisharebest\Webtrees\Exceptions\IndividualAccessDeniedException;
 use Fisharebest\Webtrees\Exceptions\IndividualNotFoundException;
 use Fisharebest\Webtrees\Http\ViewResponseTrait;
+use Fisharebest\Webtrees\Http\RequestHandlers\MergeRecordsPage;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Registry;
@@ -71,29 +72,34 @@ class MultTreeViewRH implements RequestHandlerInterface
     /**
      * The title for a specific instance of this chart.
      *
-     * @param Individual $individual
+     * @param array<Individual> $INDI_ar
      *
      * @return string
      */
-    public function chartTitle(Individual $individual): string
+    public function chartTitle($INDI_ar): string
     {
-        // What is (was) the age of the individual
-        $bdate = $individual->getBirthDate();
-        $ddate = $individual->getDeathDate();
+        $htmlTOP_ar = [];
+        foreach( $INDI_ar as $individual) {
+            // What is (was) the age of the individual
+            $bdate = $individual->getBirthDate();
+            $ddate = $individual->getDeathDate();
 
-        if ($individual->isDead()) {
-            // If dead, show age at death
-            $age = (string) new Age($individual->getBirthDate(), $individual->getDeathDate());
-        } else {
-            // If living, show age today
-            $today = new Date(strtoupper(date('d M Y')));
-            $age   = (string) new Age($individual->getBirthDate(), $today);
+            if ($individual->isDead()) {
+                // If dead, show age at death
+                $age = (string) new Age($individual->getBirthDate(), $individual->getDeathDate());
+            } else {
+                // If living, show age today
+                $today = new Date(strtoupper(date('d M Y')));
+                $age   = (string) new Age($individual->getBirthDate(), $today);
+            }
+            $htmlTOP = view('modules/interactive-tree/MultTVpageh2', [
+                'individual' => $individual,
+                'age'        => $age,
+            ]);
+            $htmlTOP_ar[] = $htmlTOP;
         }
-        $htmlTOP = view('modules/interactive-tree/MultTVpageh2', [
-            'individual' => $individual,
-            'age'        => $age,
-        ]);
-        $ct = I18N::translate('Check tree of %s', $htmlTOP); 
+        $htmlTOP = implode('', $htmlTOP_ar);
+        $ct = '<div class="d-flex mb-4 mtv-info">' . I18N::translate('Check tree of %s', $htmlTOP) . '</div>'; 
         return $ct;
     }
     /**
@@ -145,9 +151,9 @@ class MultTreeViewRH implements RequestHandlerInterface
         $tree = Validator::attributes($request)->tree();
 
         $xref_s = Validator::queryParams($request)->string('xrefs', '');
-        $xrefs = explode(",", $xref_s);
-        $xref1 = $xrefs[0];
-        $xref2 = $xrefs[1];
+        $XREFar = explode(",", $xref_s);
+        $xref1 = $XREFar[0];
+        $xref2 = $XREFar[1];
 
         $titleRH = I18N::translate('Interactive check') . ' — ' . e($tree->title());
         $modRoot = $this->modRoot();
@@ -174,11 +180,12 @@ class MultTreeViewRH implements RequestHandlerInterface
 
         $earmarks = [ "M", "U", "L", "T", "V" ];         // EW.H - MOD ... up to 5 Indi which are viewed as possible duplicates
 
-        $htmlAr = [];
-        $jsAr = [];
-        for ($i = 0, $iE = count($xrefs); $i < $iE ; ++$i) {
+        $INDI_ar = [];
+        $HTML_ar = [];
+        $JS_ar = [];
+        for ($i = 0, $iE = count($XREFar); $i < $iE ; ++$i) {
 
-            $xref = $xrefs[$i];
+            $xref = $XREFar[$i];
             $individual = Registry::individualFactory()->make($xref, $tree);
             $individual = Auth::checkIndividualAccess($individual, false, true);
             if ( $i == 0) { $individual0 = $individual; }
@@ -192,20 +199,21 @@ class MultTreeViewRH implements RequestHandlerInterface
     
             $html = $htmlTOP . $html;
 
-            $htmlAr[] = $html;
-            $jsAr[] = $js;
+            $INDI_ar[] = $individual;
+            $HTML_ar[] = $html;
+            $JS_ar[] = $js;
         }
-        // echo $htmlAr[1];
+        // echo $HTML_ar[1];
         $actLan = Session::get('language', '');
 
         return $this->viewResponse('modules/interactive-tree/MultTVpage', [
-            'htmls'      => $htmlAr,
+            'html_ar'    => $HTML_ar,
             // 'individual' => $individual,
-            'jss'        => $jsAr,
+            'js_ar'      => $JS_ar,
             // 'module'     => $this->name(),
-            'title'      => $this->chartTitle($individual0),
-            'actLan'     => $actLan,
-            'tree'       => $tree,
+            'title'      => $this->chartTitle($INDI_ar),
+            // 'actLan'     => $actLan,
+            // 'tree'       => $tree,
             'modRoot'    => $modRoot,       // EW.H - MOD ... root of this module
         ]);
     }

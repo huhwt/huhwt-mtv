@@ -31,6 +31,7 @@ use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Menu;
 // use Fisharebest\Webtrees\Module\InteractiveTree\TreeView;
 use Fisharebest\Webtrees\Module\InteractiveTreeModule;
+use Fisharebest\Webtrees\Session;
 use Fisharebest\Webtrees\Tree;
 use Fisharebest\Webtrees\Validator;
 use Psr\Http\Message\ResponseInterface;
@@ -40,6 +41,8 @@ use Psr\Http\Server\RequestHandlerInterface;
 use HuHwt\WebtreesMods\Module\InteractiveTree\MultTreeViewMod;
 
 use HuHwt\WebtreesMods\Exceptions\MTVactionNotFoundException;
+
+use HuHwt\WebtreesMods\ClippingsCartEnhanced\ClippingsCartEnhancedModule;
 
 use function assert;
 
@@ -69,6 +72,10 @@ class InteractiveTreeModMTV extends InteractiveTreeModule implements
 
         if ( $action == 'Individuals' ) {
             return $this->getIndividualsAction($request);
+        }
+
+        if ( $action == 'CCEadapter' ) {
+            return $this->getCCEadapterAction($request);
         }
 
         throw new MTVactionNotFoundException($action);
@@ -102,13 +109,40 @@ class InteractiveTreeModMTV extends InteractiveTreeModule implements
      */
     public function getIndividualsAction(ServerRequestInterface $request): ResponseInterface
     {
-        $tree = Validator::attributes($request)->tree();
-        $q        = Validator::queryParams($request)->string('q', '');
-        $instance = Validator::queryParams($request)->string('instance', '');
-        $earmark   = substr($instance, 2);                           // EW.H MOD ... extract Earmark for Treeview-Instance
-        $treeview = new MultTreeViewMod($instance);                  // EW.H MOD ... set own Treeview-Instance
+        $tree       = Validator::attributes($request)->tree();
+        $q          = Validator::queryParams($request)->string('q', '');
+        $instance   = Validator::queryParams($request)->string('instance', '');
+        $earmark    = substr($instance, 2);                           // EW.H MOD ... extract Earmark for Treeview-Instance
+        $treeview   = new MultTreeViewMod($instance);                  // EW.H MOD ... set own Treeview-Instance
 
         return response($treeview->getIndividuals($tree, $earmark, $q));
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     *
+     * @return ResponseInterface
+     * 
+     * perform ClippingsCart
+     */
+    public function getCCEadapterAction(ServerRequestInterface $request): ResponseInterface
+    {
+
+        $tree       = Validator::attributes($request)->tree();
+        $XREFindi   = Validator::queryParams($request)->string('XREFindi', '');
+        $xrefs = Validator::queryParams($request)->string('xrefs', '');
+
+        $CCEok = class_exists("HuHwt\WebtreesMods\ClippingsCartEnhanced\ClippingsCartEnhancedModule", true);
+        if (!$CCEok) {
+            $cart = Session::get('cart', []);
+            $xrefs = $cart[$tree->name()] ?? [];
+            $countXREFcold = count($xrefs);
+            return response((string) $countXREFcold);
+        }
+
+        $CCEadapter = new ClippingsCartEnhancedModule();
+
+        return response($CCEadapter->clip_mtv($request));
     }
 
 };

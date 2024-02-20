@@ -31,6 +31,7 @@ use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Tree;
 use Illuminate\Support\Collection;
 
+
 /**
  * Class MultTreeViewMod
  *
@@ -41,6 +42,8 @@ class MultTreeViewMod
     /** @var string HTML element name */
     private $name;
 
+    private $CCEok;
+
     /**
      * Treeview Constructor
      *
@@ -49,6 +52,8 @@ class MultTreeViewMod
     public function __construct(string $name = 'tree')
     {
         $this->name = $name;
+
+        $this->CCEok = class_exists("HuHwt\WebtreesMods\ClippingsCartEnhanced\ClippingsCartEnhancedModule", true);
     }
 
     /**
@@ -68,8 +73,10 @@ class MultTreeViewMod
             'module'     => 'treeMTV',                             // EW.H - MOD ... put own Module here!
             'name'       => $this->name,
             'earmark'    => $earmark,
-            'individual' => $this->drawPerson($individual, $earmark, $generations, 0, null, '', true),
+            'XREFindi'   => $individual->xref(),
+            'innerHTML'  => $this->drawPerson($individual, $earmark, $generations, 0, null, '', true),
             'tree'       => $individual->tree(),
+            'withCCE'    => $this->CCEok,
         ]);
 
         return [
@@ -162,7 +169,7 @@ class MultTreeViewMod
             'tree'   => $individual->tree()->name(),
         ]);
 
-        $hmtl = $this->getThumbnail($individual);
+        $hmtl = $this->drawThumbnail($individual);
         $hmtl .= '<a class="tv_link" href="' . e($individual->url()) . '">' . $individual->fullName() . '</a> <a href="' . e($chart_url) . '" title="' . I18N::translate('Interactive tree of %s', strip_tags($individual->fullName())) . '" class="wt-icon-individual tv_link tv_treelink"></a>';
         foreach ($individual->facts(Gedcom::BIRTH_EVENTS, true) as $fact) {
             $hmtl .= $fact->summary();
@@ -393,7 +400,7 @@ class MultTreeViewMod
      *
      * @return string
      */
-    private function getThumbnail(Individual $individual): string
+    private function drawThumbnail(Individual $individual): string
     {
         if ($individual->tree()->getPreference('SHOW_HIGHLIGHT_IMAGES')) {
             return $individual->displayImage(40, 50, 'crop', []);
