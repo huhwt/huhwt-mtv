@@ -17,6 +17,9 @@ use HuHwt\WebtreesMods\Http\RequestHandlers\MultTreeViewRH;
 
 $cat_checkI = I18N::translate('Individuals');       /** EW.H - MOD ... übersetzte Kategorie auswerten */
 
+$ntOpt_txt = I18N::translate("Name check performed only for table field 'n_type'") . ': ' . $ntOpt;
+$dfOpt_txt = I18N::translate("Date check performed on facts of type") . ': ' . $dfOpt;
+
 ?>
 
 <?= view('components/breadcrumbs', ['links' => [route(ControlPanel::class) => I18N::translate('Control panel'), route(ManageTrees::class, ['tree' => $tree->name()]) => I18N::translate('Manage family trees'), $title]]) ?>
@@ -27,7 +30,11 @@ $cat_checkI = I18N::translate('Individuals');       /** EW.H - MOD ... übersetz
 
     <?php if (!empty($records)) : ?>
         <?php $txt_cnt =  I18N::translate('count'); ?>
-        <h2><?= $category ?></h2> <?= $txt_cnt . " " . $category ?>: <?= count($records) ?> - <?= $txt_cnt . " " . I18N::translate('XREFs') ?>: <?= $dup_cnts[$category] ?>
+        <h2><?= $category ?></h2>
+        <?= $txt_cnt . " " . $category ?>: <?= count($records) ?> - <?= $txt_cnt . " " . I18N::translate('XREFs') ?>: <?= $dup_cnts[$category] ?>
+        <?php if ($category === $cat_checkI) : ?>       <? /** EW.H - MOD ... Zusatzaktion bei 'Individuals' */ ?>
+            <br> <?= $ntOpt_txt ?> <br> <?= $dfOpt_txt ?> <br>
+        <?php endif ?>
         <ul>
             <?php foreach ($records as $duplicates) : ?>
                 <li>

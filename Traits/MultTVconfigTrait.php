@@ -30,7 +30,7 @@ trait MultTVconfigTrait {
     public function ntypeConfigOptions(): array
     {
         return [
-            0   => I18N::translate('(omitted)'),
+            0   => I18N::translate('(omitted)'),        // keine zusätzliche Aktion
             // EW.H - MOD ...     Achtung, Text wird ab '>' so wie geschrieben übernommen!
             1   => I18N::translate('only') . " ->'NAME'"
         ];
@@ -44,9 +44,10 @@ trait MultTVconfigTrait {
     private function dfactConfigOptions(): array
     {
         return [
-            0   => I18N::translate('(omitted)'),
+            0   => I18N::translate('(default)'),        // es wird die Default-Aktion ausgeführt
             // EW.H - MOD ...     Achtung, Text wird ab '>' so wie geschrieben übernommen!
-            1   => I18N::translate('Match only in') . " ->'BIRT', 'CHR', 'BAPM', 'DEAT', 'BURI'"
+            1   => I18N::translate('Match only in') . " ->'BIRT', 'CHR', 'DEAT', 'BURI'",
+            2   => I18N::translate('Match only in') . " ->'BIRT', 'CHR', 'DEAT'"
         ];
     }
 

@@ -103,9 +103,9 @@ class FindDuplicateRecordsMTV implements RequestHandlerInterface
         if ($ntypeOption > 0 || $dfactOption > 0) {
             $ntype_Options = $this->ntypeConfigOptions();
             $dfact_Options = $this->dfactConfigOptions();
-
-            $ntOpt = $ntypeOption > 0 ? $ntype_Options[$ntypeOption] : '';
-            $dfOpt = $dfactOption > 0 ? $dfact_Options[$dfactOption] : '';
+                                                                 /** EW.H - MOD ... set wt-defaults */
+            $ntOpt = $ntypeOption > 0 ? $ntype_Options[$ntypeOption] : "";
+            $dfOpt = $dfactOption > 0 ? $dfact_Options[$dfactOption] : " ->'BIRT', 'CHR', 'BAPM', 'DEAT', 'BURI'";
 
             /** EW.H - MOD ... second run: check for duplicate individuals with constraints */
             $duplicates[$cat_checkI] = $this->admin_serviceMTV->duplicateRecordsMTV($tree, $ntOpt, $dfOpt);
@@ -128,10 +128,14 @@ class FindDuplicateRecordsMTV implements RequestHandlerInterface
             $dup_cnts[$category] = $cnt_dups;
         }
 
+        if ($ntypeOption <= 0) { $ntOpt = I18N::translate('(omitted)'); }
+        if ($dfactOption <= 0) { $dfOpt = I18N::translate('Match only in') . " ->'BIRT', 'CHR', 'BAPM', 'DEAT', 'BURI'";}
         return $this->viewResponse('admin/trees-duplicates', [
             'duplicates' => $duplicates,
             'title'      => $title,
             'tree'       => $tree,
+            'ntOpt'      => $ntOpt,
+            'dfOpt'      => $dfOpt,
             'dup_cnts'   => $dup_cnts,
         ]);
     }

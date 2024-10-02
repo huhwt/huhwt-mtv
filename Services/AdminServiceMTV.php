@@ -64,6 +64,14 @@ class AdminServiceMTV
     public function duplicateRecordsMTV(Tree $tree, string $ntOpt, string $dfOpt): array
     {
 
+        // Database agnostic way to do GROUP_CONCAT(DISTINCT x ORDER BY x)
+        $distinct_order_by = static function (string $xrefs): string {
+            $array = explode(',', $xrefs);
+            sort($array);
+
+            return implode(',', array_unique($array));
+        };
+
         $individuals = DB::table('dates')
             ->join('name', static function (JoinClause $join): void {
                 $join
@@ -98,10 +106,11 @@ class AdminServiceMTV
         $individuals = $individuals
             ->groupBy(['d_year', 'd_month', 'd_day', 'd_type', 'd_fact', 'n_type', 'n_full'])
             ->having(new Expression('COUNT(DISTINCT d_gid)'), '>', '1')
-            ->select([new Expression('GROUP_CONCAT(DISTINCT d_gid ORDER BY d_gid) AS xrefs')])
-            ->distinct()
+            ->select([new Expression(self::groupConcat('d_gid') . ' AS xrefs')])
             ->orderBy('xrefs')
             ->pluck('xrefs')
+            ->map($distinct_order_by)
+            ->unique()
             ;
         $individualsr = $individuals
             ->map(static function (string $xrefs) use ($tree): array {
@@ -115,5 +124,23 @@ class AdminServiceMTV
 
         return $individualsr;
     }
+
+        /**
+     * @internal
+     */
+    public static function groupConcat(string $column): string
+    {
+        switch (DB::connection()->getDriverName()) {
+            case 'pgsql':
+            case 'sqlsrv':
+                return 'STRING_AGG(' . $column . ", ',')";
+
+            case 'mysql':
+            case 'sqlite':
+            default:
+                return 'GROUP_CONCAT(' . $column . ')';
+        }
+    }
+
 
 }

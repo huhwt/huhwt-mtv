@@ -65,3 +65,9 @@ msgstr "(entfällt)"
 #: Ergänzung CCE-Anbindung
 msgid "Add this records to the clippings cart"
 msgstr "Einträge zum Sammelbehälter hinzufügen"
+
+msgid "Date check performed on facts of type"
+msgstr "Datumsprüfung ausgeführt für Fakten vom Typ"
+
+msgid "Name check performed only for table field 'n_type'"
+msgstr "Namenprüfung ausgeführt nur für Tabellenfeld"
