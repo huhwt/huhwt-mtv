@@ -25,7 +25,7 @@ use Fisharebest\Webtrees\Module\ModuleCustomTrait;
 use Fisharebest\Webtrees\Http\Middleware\AuthManager;
 // use Fisharebest\Webtrees\Contracts\UserInterface;
 use Fisharebest\Webtrees\Http\ViewResponseTrait;
-// use Fisharebest\Webtrees\Registry;
+use Fisharebest\Webtrees\Registry;
 // use Fisharebest\Webtrees\Menu;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\View;
@@ -53,7 +53,6 @@ use HuHwt\WebtreesMods\Http\RequestHandlers\FindDuplicateRecordsMTV;
 use HuHwt\WebtreesMods\Module\InteractiveTree\InteractiveTreeModMTV;
 use HuHwt\WebtreesMods\Traits\MultTVconfigTrait;
 
-use function app;
 // use function array_keys;
 use function assert;
 // use function e;
@@ -106,7 +105,7 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
      * @return string
      */
     public function customModuleVersion(): string {
-        return '2.1.20.0';
+        return '2.2.0.0';
     }
 
     /**
@@ -210,7 +209,7 @@ class MultTreeView extends AbstractModule implements ModuleCustomInterface, Modu
      */
     public function boot(): void 
     {
-        $router_container = app(RouterContainer::class);
+        $router_container = Registry::container()->get(RouterContainer::class);
         assert($router_container instanceof RouterContainer);
         $router = $router_container->getMap();
 

@@ -7,6 +7,10 @@
 
 Erweiterungen für Webtrees zur Prüfung und Anzeige von Duplikaten und anderen Inkonsistenzen in der Datenbank.
 
+Dies ist ein webtrees 2.2 Modul - kann nicht mit webtrees 2.1 benutzt werden.
+
+Für Systeme mit webtrees 2.1 bitte huhwt-mtv Release v2.1.20.0 bzw. huhwt-mtv Branch 2.1 verwenden.
+
 Hinweis:
 ~~~
    Dieses Modul muss in einer PHP 8.2(aufwärts) System-Umgebung
