@@ -17,6 +17,7 @@ use Fisharebest\Webtrees\Module\CustomCssJsModule;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
 use Fisharebest\Webtrees\Module\ModuleGlobalInterface;
 use Fisharebest\Webtrees\Services\ModuleService;
+use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Session;
 use Fisharebest\Webtrees\View;
 
@@ -42,13 +43,13 @@ use Fisharebest\Webtrees\View;
         <link rel="stylesheet" href="<?= e(asset('css/vendor.min.css')) ?>">
         <link rel="stylesheet" href="<?= e(asset('css/administration.min.css')) ?>">
         <!-- EW.H - MOD ... inject own style -->
-        <link rel="stylesheet" href="<?=  $modRoot . '/resources/css/huhwt.min.css' . '?v=2.1.20.0' ?>">
-        <link rel="stylesheet" href="<?=  $modRoot . '/resources/css/CCEadapter-actions.css' . '?v=2.1.20.0' ?>">
+        <link rel="stylesheet" href="<?=  $modRoot . '/resources/css/huhwt.min.css' . '?v=2.2.1.0' ?>">
+        <link rel="stylesheet" href="<?=  $modRoot . '/resources/css/CCEadapter-actions.css' . '?v=2.2.1.0' ?>">
         <!--            -->
 
         <?= View::stack('styles') ?>
 
-        <?= app(ModuleService::class)->findByInterface(ModuleGlobalInterface::class)->map(static function (ModuleGlobalInterface $module): string {
+        <?= Registry::container()->get(ModuleService::class)->findByInterface(ModuleGlobalInterface::class)->map(static function (ModuleGlobalInterface $module): string {
     return $module instanceof ModuleCustomInterface || $module instanceof CustomCssJsModule ? '' : $module->headContent();
         })->implode('') ?>
 
@@ -102,11 +103,11 @@ use Fisharebest\Webtrees\View;
         <script src="<?= e(asset('js/vendor.min.js')) ?>"></script>
         <script src="<?= e(asset('js/webtrees.min.js')) ?>"></script>
         <!-- EW.H - MOD ... inject own script referenced by event -->
-        <script src="<?=  $modRoot . '/resources/js/huhwt.min.js' . '?v=2.1.20.0' ?>"></script>
+        <script src="<?=  $modRoot . '/resources/js/huhwt.min.js' . '?v=2.2.1.0' ?>"></script>
         <!-- EW.H - MOD ... here goes declaration of MTV-events -->
         <?= View::stack('javascript') ?>
 
-        <?= app(ModuleService::class)->findByInterface(ModuleGlobalInterface::class)->map(static function (ModuleGlobalInterface $module): string {
+        <?= Registry::container()->get(ModuleService::class)->findByInterface(ModuleGlobalInterface::class)->map(static function (ModuleGlobalInterface $module): string {
     return $module instanceof ModuleCustomInterface || $module instanceof CustomCssJsModule ? '' : $module->bodyContent();
         })->implode('') ?>
     </body>

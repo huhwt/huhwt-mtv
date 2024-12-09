@@ -44,7 +44,6 @@ use HuHwt\WebtreesMods\Module\InteractiveTree\MultTreeViewMod;
 
 use function assert;
 use function redirect;
-use function app;
 
 /**
  * Multiple Treeviews - Interactive check

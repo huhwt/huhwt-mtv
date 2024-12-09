@@ -2,21 +2,18 @@
 ============================
 
 [![Latest Release](https://img.shields.io/github/v/release/huhwt/huhwt-mtv)][1]
-[![webtrees major version](https://img.shields.io/badge/webtrees-v2.1-green)][2]
+[![webtrees major version](https://img.shields.io/badge/webtrees-v2.2-green)][2]
 [![Downloads](https://img.shields.io/github/downloads/huhwt/huhwt-mtv/total)]()
 
 Extensions for webtrees to check and display duplicate Individuals in the database.
 
 This is a webtrees 2.2 module - It cannot be used with webtrees 2.1.
 
-For webtrees 2.1 use the huhwt-mtv Release v2.1.20.0 respectively the huhwt-mtv Branch 2.1.
+For webtrees 2.1 use the latest release v2.1.20.0 of the huhwt-mtv Branch 2.1.
 
 Attention:
 ~~~
-  This module requires to be operated in a PHP 8.2-onward system 
-  environment due to some features not have been available before.
-
-  Systems with PHP 8.1 environment have to use Release 2.1.17.x.
+  This module requires to be operated in a PHP 8.3-onward system.
 ~~~
 
 Introduction

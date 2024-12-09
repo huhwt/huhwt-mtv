@@ -2,21 +2,18 @@
 ============================
 
 [![Latest Release](https://img.shields.io/github/v/release/huhwt/huhwt-mtv)][1]
-[![webtrees major version](https://img.shields.io/badge/webtrees-v2.1-green)][2]
+[![webtrees major version](https://img.shields.io/badge/webtrees-v2.2-green)][2]
 [![Downloads](https://img.shields.io/github/downloads/huhwt/huhwt-mtv/total)]()
 
 Erweiterungen für Webtrees zur Prüfung und Anzeige von Duplikaten und anderen Inkonsistenzen in der Datenbank.
 
 Dies ist ein webtrees 2.2 Modul - kann nicht mit webtrees 2.1 benutzt werden.
 
-Für Systeme mit webtrees 2.1 bitte huhwt-mtv Release v2.1.20.0 bzw. huhwt-mtv Branch 2.1 verwenden.
+Für Systeme mit webtrees 2.1 bitte das letzte Release aus dem huhwt-mtv Branch 2.1 verwenden.
 
 Hinweis:
 ~~~
-   Dieses Modul muss in einer PHP 8.2(aufwärts) System-Umgebung
-   betrieben werden, da relevante Funktionen zuvor nicht verfügbar waren.
-
-   Systeme mit PHP 8.1-Umgebung müssen Release 2.1.17.x verwenden.
+   Dieses Modul muss in einer PHP 8.3(aufwärts) System-Umgebung betrieben werden.
 ~~~
 
 Einführung
