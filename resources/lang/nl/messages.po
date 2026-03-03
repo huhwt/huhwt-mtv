@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.8\n"
 
 #: MultTreeView.php:126
 msgid "MultTreeView"
@@ -68,6 +68,9 @@ msgstr "alleen"
 
 msgid "Match only in"
 msgstr "Overeenkomst alleen in"
+
+msgid "Matched only by"
+msgstr "Overeenkomst alleen op"
 
 msgid "(omitted)"
 msgstr "(weggelaten)"
